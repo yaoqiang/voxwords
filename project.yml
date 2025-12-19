@@ -1,0 +1,33 @@
+name: VoxWords
+options:
+  bundleIdPrefix: com.angyee
+  deploymentTarget:
+    iOS: 18.0
+configs:
+  Debug: debug
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    PRODUCT_BUNDLE_IDENTIFIER: com.angyee.voxwords
+    INFOPLIST_FILE: VoxWords/Info.plist
+    IPHONEOS_DEPLOYMENT_TARGET: 18.0
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGNING_ALLOWED: YES
+    CODE_SIGNING_REQUIRED: YES
+    CODE_SIGN_IDENTITY: "Apple Development"
+    DEVELOPMENT_TEAM: "MQH938XS75"
+    PROVISIONING_PROFILE_SPECIFIER: ""
+targets:
+  VoxWords:
+    type: application
+    platform: iOS
+    sources:
+      - path: VoxWords
+    settings:
+      base:
+        PRODUCT_NAME: VoxWords
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    scheme:
+      testTargets: []
+

@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0EA75901F5F2E99B0C08F385 /* TranslationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD508AE62F19053DF3274372 /* TranslationManager.swift */; };
+		B1C2D3E4F5A6B7C8D9E0F123 /* TranslationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */; };
+		130695A040A823C2D45129E5 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D79D0122AD6DA66F01CD95 /* DesignSystem.swift */; };
+		131E6EF3804B6339B1C6EF61 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4580C71F6052518356CDF9 /* OnboardingView.swift */; };
+		26747B18A4D757E435755B7B /* DailyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C55E4607E73408FB617D0CA /* DailyView.swift */; };
+		2ED8E8BD13F5A9B7DE778C26 /* VisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A10B1A334E0D7B0A9D88A4 /* VisionManager.swift */; };
+		34901B66E09BA6145ED9AD5F /* VisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85672892722C96390586D9F /* VisualizerView.swift */; };
+		35DAAF338E63D4DA1382DDC2 /* MoodGravityScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CB50739EBB2EF784C20109 /* MoodGravityScene.swift */; };
+		35E9C2095464297C0E42D494 /* StickerKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B17B39316C38BF4F1A23FE /* StickerKit.swift */; };
+		446B4D78139334A563DA7FA3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128D967945EBB58BDDBEEDE8 /* SettingsView.swift */; };
+		5320999BFFFFDD4C08AA9B85 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20288A9774F82807F3B1FF30 /* RecordButton.swift */; };
+		5540D58105C17AD3FD190D3D /* POCChartsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD1E6A3DB5857996ED215E /* POCChartsSection.swift */; };
+		5917B9E9C6CDDF8C20A340F5 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D032F81C017EC62696A4262E /* HapticManager.swift */; };
+		5CF23B7D4954FC05A749C870 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120E000BDC31452D4012C50C /* SpeechManager.swift */; };
+		7465AA9182F36201B6892163 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B4F70AA04A3CEC9B21B9 /* HomeView.swift */; };
+		80C250EDC6B186C5E1B88870 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB04A5088D2EFE1B1CE1C4A /* CardView.swift */; };
+		8CA3C9A4A448CECAA00237D4 /* VoxWordsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F9004D4985123142443C0D /* VoxWordsApp.swift */; };
+		93069D4E7C1D9D7A92583498 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */; };
+		A592F58AD345F4C0DBD8CD2A /* TranslationHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DCA803EC2879C247322478 /* TranslationHost.swift */; };
+		A9D14491A89695DF4ECE23A4 /* POCDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E5BC685D0B236022445DD /* POCDemoView.swift */; };
+		B5683B956716628F12CE13D0 /* RetroCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C00ED48694071CC2520F098 /* RetroCards.swift */; };
+		B83456CEB9F7671BD994CEC9 /* WordEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5082F70DC9176932FE07220C /* WordEntry.swift */; };
+		C0C365420C60CF8BB8703794 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A967D710417384883DE2C0 /* AppStore.swift */; };
+		CDF84814B0B9AF779F6216A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2091FA76023F4A83C2B80A4 /* Assets.xcassets */; };
+		E0F2F6ABBB49050EE29550FB /* VocabularyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC05C02429DACC1E33004DD /* VocabularyCard.swift */; };
+		F9C290BB183EFE307D164940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B46C02AFC55552506E74EA /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		07DCA803EC2879C247322478 /* TranslationHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationHost.swift; sourceTree = "<group>"; };
+		0C4580C71F6052518356CDF9 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		120E000BDC31452D4012C50C /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
+		A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPipeline.swift; sourceTree = "<group>"; };
+		128D967945EBB58BDDBEEDE8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		150A8719C9C22E9B943981A7 /* VoxWords.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoxWords.entitlements; sourceTree = "<group>"; };
+		1A6E5BC685D0B236022445DD /* POCDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POCDemoView.swift; sourceTree = "<group>"; };
+		20288A9774F82807F3B1FF30 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		2F9F6F91D2950A7B148D1157 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		37A10B1A334E0D7B0A9D88A4 /* VisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionManager.swift; sourceTree = "<group>"; };
+		3C00ED48694071CC2520F098 /* RetroCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroCards.swift; sourceTree = "<group>"; };
+		5082F70DC9176932FE07220C /* WordEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntry.swift; sourceTree = "<group>"; };
+		58A967D710417384883DE2C0 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		78D79D0122AD6DA66F01CD95 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		80CB50739EBB2EF784C20109 /* MoodGravityScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodGravityScene.swift; sourceTree = "<group>"; };
+		8C55E4607E73408FB617D0CA /* DailyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyView.swift; sourceTree = "<group>"; };
+		8EC05C02429DACC1E33004DD /* VocabularyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyCard.swift; sourceTree = "<group>"; };
+		94B17B39316C38BF4F1A23FE /* StickerKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerKit.swift; sourceTree = "<group>"; };
+		B5D4B4F70AA04A3CEC9B21B9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		BEB04A5088D2EFE1B1CE1C4A /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		C85672892722C96390586D9F /* VisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerView.swift; sourceTree = "<group>"; };
+		D032F81C017EC62696A4262E /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		D9F9004D4985123142443C0D /* VoxWordsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxWordsApp.swift; sourceTree = "<group>"; };
+		E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		EFAD1E6A3DB5857996ED215E /* POCChartsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POCChartsSection.swift; sourceTree = "<group>"; };
+		F2091FA76023F4A83C2B80A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4B46C02AFC55552506E74EA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FD508AE62F19053DF3274372 /* TranslationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationManager.swift; sourceTree = "<group>"; };
+		FD593215BD8971CBE2A468BC /* VoxWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoxWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		09700788473730536BFDB4A0 /* Practice */ = {
+			isa = PBXGroup;
+			children = (
+				07DCA803EC2879C247322478 /* TranslationHost.swift */,
+			);
+			path = Practice;
+			sourceTree = "<group>";
+		};
+		0C3ED2BC7CA5D3624226468A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				B5D4B4F70AA04A3CEC9B21B9 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		289686B5B997A8116714BF2F /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				58A967D710417384883DE2C0 /* AppStore.swift */,
+				D032F81C017EC62696A4262E /* HapticManager.swift */,
+				120E000BDC31452D4012C50C /* SpeechManager.swift */,
+				FD508AE62F19053DF3274372 /* TranslationManager.swift */,
+				A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */,
+				37A10B1A334E0D7B0A9D88A4 /* VisionManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		2F39B8CC409D480458EC987F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				128D967945EBB58BDDBEEDE8 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3AF03A0D4F9C0CB5BFA15306 /* Daily */ = {
+			isa = PBXGroup;
+			children = (
+				8C55E4607E73408FB617D0CA /* DailyView.swift */,
+				3C00ED48694071CC2520F098 /* RetroCards.swift */,
+			);
+			path = Daily;
+			sourceTree = "<group>";
+		};
+		3C1911EBD63929F1F389B989 /* VoxWords */ = {
+			isa = PBXGroup;
+			children = (
+				F2091FA76023F4A83C2B80A4 /* Assets.xcassets */,
+				F4B46C02AFC55552506E74EA /* ContentView.swift */,
+				2F9F6F91D2950A7B148D1157 /* Info.plist */,
+				150A8719C9C22E9B943981A7 /* VoxWords.entitlements */,
+				D9F9004D4985123142443C0D /* VoxWordsApp.swift */,
+				289686B5B997A8116714BF2F /* Managers */,
+				56C2375748F10355DBD8A227 /* Models */,
+				48A7748EC97BA9E0912DE37C /* Theme */,
+				A01EA9F966321EF8CC1811FB /* Views */,
+			);
+			path = VoxWords;
+			sourceTree = "<group>";
+		};
+		48A7748EC97BA9E0912DE37C /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				78D79D0122AD6DA66F01CD95 /* DesignSystem.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		49133AC465DC35F36E4CEA43 = {
+			isa = PBXGroup;
+			children = (
+				3C1911EBD63929F1F389B989 /* VoxWords */,
+				5FEF2DA4EA40A3DD8FD95DDD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5108BF254010F39C4AC7F1D2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BEB04A5088D2EFE1B1CE1C4A /* CardView.swift */,
+				20288A9774F82807F3B1FF30 /* RecordButton.swift */,
+				94B17B39316C38BF4F1A23FE /* StickerKit.swift */,
+				C85672892722C96390586D9F /* VisualizerView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		56C2375748F10355DBD8A227 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */,
+				8EC05C02429DACC1E33004DD /* VocabularyCard.swift */,
+				5082F70DC9176932FE07220C /* WordEntry.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5FEF2DA4EA40A3DD8FD95DDD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD593215BD8971CBE2A468BC /* VoxWords.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8C784242496DBA7E9E1D93EE /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				0C4580C71F6052518356CDF9 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		A01EA9F966321EF8CC1811FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5108BF254010F39C4AC7F1D2 /* Components */,
+				3AF03A0D4F9C0CB5BFA15306 /* Daily */,
+				C3798221D7D0984E354D32D0 /* Demos */,
+				0C3ED2BC7CA5D3624226468A /* Home */,
+				8C784242496DBA7E9E1D93EE /* Onboarding */,
+				09700788473730536BFDB4A0 /* Practice */,
+				2F39B8CC409D480458EC987F /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C3798221D7D0984E354D32D0 /* Demos */ = {
+			isa = PBXGroup;
+			children = (
+				80CB50739EBB2EF784C20109 /* MoodGravityScene.swift */,
+				EFAD1E6A3DB5857996ED215E /* POCChartsSection.swift */,
+				1A6E5BC685D0B236022445DD /* POCDemoView.swift */,
+			);
+			path = Demos;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		82EF1DA5169CEEB6E0796CE5 /* VoxWords */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDB3964C88DF270F4172CD5D /* Build configuration list for PBXNativeTarget "VoxWords" */;
+			buildPhases = (
+				8F5EEC517B44650A391C68D5 /* Sources */,
+				04DE0984FB079B03D0485F04 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoxWords;
+			packageProductDependencies = (
+			);
+			productName = VoxWords;
+			productReference = FD593215BD8971CBE2A468BC /* VoxWords.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3BC7AED3CB5C1DF5D8548AE1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					82EF1DA5169CEEB6E0796CE5 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 943458B8D04C2DBF4E83FCFF /* Build configuration list for PBXProject "VoxWords" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 49133AC465DC35F36E4CEA43;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				82EF1DA5169CEEB6E0796CE5 /* VoxWords */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04DE0984FB079B03D0485F04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDF84814B0B9AF779F6216A6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8F5EEC517B44650A391C68D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0C365420C60CF8BB8703794 /* AppStore.swift in Sources */,
+				80C250EDC6B186C5E1B88870 /* CardView.swift in Sources */,
+				F9C290BB183EFE307D164940 /* ContentView.swift in Sources */,
+				26747B18A4D757E435755B7B /* DailyView.swift in Sources */,
+				130695A040A823C2D45129E5 /* DesignSystem.swift in Sources */,
+				5917B9E9C6CDDF8C20A340F5 /* HapticManager.swift in Sources */,
+				7465AA9182F36201B6892163 /* HomeView.swift in Sources */,
+				35DAAF338E63D4DA1382DDC2 /* MoodGravityScene.swift in Sources */,
+				131E6EF3804B6339B1C6EF61 /* OnboardingView.swift in Sources */,
+				5540D58105C17AD3FD190D3D /* POCChartsSection.swift in Sources */,
+				A9D14491A89695DF4ECE23A4 /* POCDemoView.swift in Sources */,
+				5320999BFFFFDD4C08AA9B85 /* RecordButton.swift in Sources */,
+				B5683B956716628F12CE13D0 /* RetroCards.swift in Sources */,
+				446B4D78139334A563DA7FA3 /* SettingsView.swift in Sources */,
+				5CF23B7D4954FC05A749C870 /* SpeechManager.swift in Sources */,
+				35E9C2095464297C0E42D494 /* StickerKit.swift in Sources */,
+				A592F58AD345F4C0DBD8CD2A /* TranslationHost.swift in Sources */,
+				0EA75901F5F2E99B0C08F385 /* TranslationManager.swift in Sources */,
+				B1C2D3E4F5A6B7C8D9E0F123 /* TranslationPipeline.swift in Sources */,
+				93069D4E7C1D9D7A92583498 /* UserPreferences.swift in Sources */,
+				2ED8E8BD13F5A9B7DE778C26 /* VisionManager.swift in Sources */,
+				34901B66E09BA6145ED9AD5F /* VisualizerView.swift in Sources */,
+				E0F2F6ABBB49050EE29550FB /* VocabularyCard.swift in Sources */,
+				8CA3C9A4A448CECAA00237D4 /* VoxWordsApp.swift in Sources */,
+				B83456CEB9F7671BD994CEC9 /* WordEntry.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D236C2498A71A3988C8DD804 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MQH938XS75;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = VoxWords/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angyee.voxwords;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		DB2B984C7267BA990A3E43B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 444QN3PJ96;
+				INFOPLIST_FILE = VoxWords/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = VoxWords;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E54E259FB2DC59330225DA41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = MQH938XS75;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = VoxWords/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.angyee.voxwords;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		E7884F47972AAA00979D48EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 444QN3PJ96;
+				INFOPLIST_FILE = VoxWords/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = VoxWords;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		943458B8D04C2DBF4E83FCFF /* Build configuration list for PBXProject "VoxWords" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D236C2498A71A3988C8DD804 /* Debug */,
+				E54E259FB2DC59330225DA41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CDB3964C88DF270F4172CD5D /* Build configuration list for PBXNativeTarget "VoxWords" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E7884F47972AAA00979D48EF /* Debug */,
+				DB2B984C7267BA990A3E43B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3BC7AED3CB5C1DF5D8548AE1 /* Project object */;
+}
