@@ -1,8 +1,10 @@
 import SwiftUI
 
 /// The "Soul" of VoxWords - A buttery smooth record button with
-/// WeChat-like responsiveness and CapWords-like aesthetics.
+/// WeChat-like responsiveness and a kid-friendly glass feel.
 struct RecordButton: View {
+    @Environment(\.colorScheme) private var colorScheme
+
     // MARK: - Bindings & Callbacks
     @Binding var isRecording: Bool
     let audioLevel: Float
@@ -33,6 +35,9 @@ struct RecordButton: View {
     }
     
     var body: some View {
+        let isDark = (colorScheme == .dark)
+        let stroke = isDark ? Color.white.opacity(0.22) : VoxTheme.Glass.stroke
+
         ZStack {
             // Pulse rings (when recording)
             if isRecording {
@@ -47,22 +52,51 @@ struct RecordButton: View {
             
             // Main button
             Circle()
-                .fill(VoxTheme.Colors.primaryGradient)
+                .fill(.ultraThinMaterial)
                 .frame(width: buttonSize, height: buttonSize)
+                .overlay(
+                    Circle()
+                        .stroke(stroke, lineWidth: VoxTheme.Glass.strokeWidth)
+                )
                 .shadow(
-                    color: VoxTheme.Shadows.button,
-                    radius: isPressed ? VoxTheme.Shadows.buttonRadius / 2 : VoxTheme.Shadows.buttonRadius,
-                    y: isPressed ? VoxTheme.Shadows.buttonY / 2 : VoxTheme.Shadows.buttonY
+                    color: VoxTheme.Glass.shadow,
+                    radius: isPressed ? 10 : 16,
+                    y: isPressed ? 6 : 10
                 )
                 .scaleEffect(buttonScale)
                 .animation(isPressed ? VoxTheme.Animations.buttonPress : VoxTheme.Animations.buttonRelease, value: isPressed)
                 .animation(isRecording ? nil : VoxTheme.Animations.breathing, value: breathingScale)
             
-            // Icon
-            Image(systemName: isRecording ? "waveform" : "mic.fill")
-                .font(.system(size: iconSize, weight: .medium))
-                .foregroundColor(.white)
-                .symbolEffect(.variableColor.iterative, options: .repeating, isActive: isRecording)
+            // Icon (with inset glass to make it feel "filled")
+            ZStack {
+                Circle()
+                    .fill(.ultraThinMaterial)
+                    .frame(width: 46, height: 46)
+                    .overlay(Circle().stroke(stroke.opacity(0.85), lineWidth: 1))
+                    .overlay(
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(isDark ? 0.14 : 0.55),
+                                        Color.clear
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .blendMode(.screen)
+                            .opacity(isDark ? 0.25 : 0.45)
+                    )
+                    .opacity(isRecording ? 0.95 : 0.90)
+
+                Image(systemName: isRecording ? "waveform" : "mic.fill")
+                    .font(.system(size: iconSize, weight: .semibold))
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundStyle(.primary.opacity(isDark ? 0.92 : 0.86))
+                    .symbolEffect(.variableColor.iterative, options: .repeating, isActive: isRecording)
+                    .shadow(color: Color.white.opacity(isDark ? 0.06 : 0.22), radius: 1, x: 0, y: 1)
+            }
         }
         .gesture(
             DragGesture(minimumDistance: 0)

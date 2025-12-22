@@ -1,0 +1,112 @@
+/* Onboarding */
+"onboarding.native.title" = "你说什么语言？";
+"onboarding.native.subtitle" = "这是你和孩子的日常语言";
+"onboarding.target.title" = "想学什么语言？";
+"onboarding.target.subtitle" = "我们会用这个语言生成卡片";
+"onboarding.welcome.subtitle" = "按住说一个中文词，比如「苹果」\n马上得到英文卡片，并一键听发音";
+"onboarding.cta.next" = "下一步";
+"onboarding.cta.start" = "开始体验";
+"onboarding.hero.hint" = "马上生成单词卡";
+"onboarding.tagline" = "说 · 翻译 · 听发音";
+
+/* Home */
+"home.daycard.empty" = "从今天开始，学一个新单词。";
+
+/* Common */
+"common.words_count" = "%d 个单词";
+"common.delete" = "删除";
+
+/* Daily */
+"daily.empty.title" = "今天还没有单词";
+"daily.empty.hint" = "按住底部麦克风说一个中文词，比如「苹果」\n松手后会生成英文卡片。";
+"daily.listening" = "正在听…";
+"daily.release_to_generate" = "松手生成卡片";
+"daily.confirm.wait" = "还在翻译，请稍等～";
+
+/* Translation */
+"translation.in_progress" = "翻译中…";
+"translation.timeout" = "翻译超时（点重试）";
+"translation.failed" = "翻译失败（点重试）";
+"translation.service_starting" = "翻译服务正在启动，请稍后再试。";
+"translation.need_language_pack" = "需要下载语言包。请打开 设置 > 翻译 下载所需语言。";
+"translation.downloading_language_pack" = "正在下载语言包… 可能会在后台继续下载，请稍后再试。";
+"translation.unsupported_pair" = "不支持该语言对的翻译。";
+"translation.cancelled" = "翻译已取消（点重试）";
+"translation.not_ready" = "翻译未就绪（点重试）";
+"translation.same_language" = "学习语言不能和母语一样";
+"translation.did_not_understand" = "我没听懂，你能再说一遍吗？";
+
+/* Settings */
+"settings.title" = "设置";
+"settings.section.learning" = "学习";
+"settings.section.support" = "支持";
+"settings.section.about" = "关于";
+"settings.upgrade.title" = "升级";
+"settings.upgrade.subtitle" = "解锁无限卡片";
+"settings.upgrade.active" = "已开通";
+"settings.learning.change_language" = "修改学习语言";
+"settings.learning.system_language" = "应用语言";
+"settings.learning.system_language.subtitle" = "跟随系统";
+"settings.learning.open_system_settings" = "打开系统设置";
+"settings.speech.rate.title" = "播放语速";
+"settings.speech.rate.slow" = "慢";
+"settings.speech.rate.normal" = "正常";
+"settings.speech.rate.fast" = "快";
+"settings.sheet.save" = "保存";
+"settings.sheet.languages" = "语言";
+"settings.sheet.native" = "母语";
+"settings.sheet.target" = "学习";
+
+/* Support & About (links will be Notion later) */
+"support.contact" = "联系与支持";
+"support.faq" = "常见问题";
+"support.terms" = "用户协议";
+"support.privacy" = "隐私政策";
+"settings.footer.made_by" = "VoxWords";
+"settings.footer.made_with" = "用心制作";
+
+/* Paywall */
+"paywall.title" = "VoxWords+";
+"paywall.subtitle" = "解锁无限卡片与发音，全家一起学。";
+"paywall.feature.unlimited_cards" = "无限单词卡";
+"paywall.feature.pronunciation" = "一键听发音";
+"paywall.feature.more_languages" = "支持更多语言";
+"paywall.choose_plan" = "选择方案";
+"paywall.badge.best_value" = "最划算";
+"paywall.badge.launch" = "上线优惠";
+"paywall.badge.save_percent" = "省 %d%%";
+"paywall.plan.monthly" = "按月订阅";
+"paywall.plan.monthly.subtitle" = "随时取消";
+"paywall.plan.yearly" = "按年订阅";
+"paywall.plan.yearly.subtitle" = "7 天免费试用（符合条件用户）";
+"paywall.yearly.per_month" = "约 %@ / 月";
+"paywall.cta.subscribe" = "继续";
+"paywall.restore" = "恢复购买";
+"paywall.status.active" = "已开通";
+"paywall.disclaimer" = "订阅将自动续费，除非在当前周期结束前至少 24 小时取消。";
+"paywall.privacy" = "隐私政策";
+"paywall.terms" = "服务条款";
+
+/* In-app FAQ */
+"faq.title" = "常见问题";
+"faq.q1" = "VoxWords 怎么用？";
+"faq.a1" = "按住麦克风说一个母语词汇，我们会生成学习语言的卡片，并可一键听发音。";
+"faq.q2" = "为什么有时提示翻译不可用？";
+"faq.a2" = "VoxWords 使用 iOS 18+ 的系统离线翻译能力。有些语言对需要先下载语言包。即使你关闭系统下载弹窗，语言包也可能继续在后台下载。";
+"faq.q3" = "为什么有时播放声音变小？";
+"faq.a3" = "录音后系统音频模式可能影响播放音量。VoxWords 会在播放前自动切回更适合的播放模式。";
+"faq.q4" = "能离线使用吗？";
+"faq.a4" = "如果所需的翻译语言包已安装，翻译可以离线使用；语音识别能力取决于设备与系统支持。";
+"faq.q5" = "支持哪些语言？";
+"faq.a5" = "目前支持：中文、英文、日语、韩语。";
+"about.voxwords" = "关于 VoxWords";
+"about.suggest_feature" = "功能建议";
+"about.page.title" = "关于 VoxWords";
+"about.page.body" = "VoxWords 是一款给孩子和家长一起用的“音频优先”单词卡应用。\n\n按住说一个日常词汇，我们会立刻生成学习语言的卡片，并一键听发音。\n\n我们的目标是：用最自然的方式，把每天的一点点输入，变成长期的语言能力。";
+"about.page.cta" = "开始学习";
+"support.links_missing.title" = "链接还没配置";
+"support.links_missing.message" = "等你把 Notion 链接发我后，我会在这里接上跳转。";
+"support.links_missing.ok" = "知道了";
+
+/* Retro preview */
+"preview.adjust_hint" = "不符合预期？点这里调整";

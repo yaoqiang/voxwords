@@ -82,7 +82,7 @@ final class AppStore: ObservableObject {
         let placeholder = VocabularyCard(
             id: id,
             word: normalized,
-            translation: "翻译中…",
+            translation: String(localized: "translation.in_progress"),
             nativeLanguage: p.native,
             targetLanguage: p.target,
             imageURL: nil,
@@ -97,7 +97,7 @@ final class AppStore: ObservableObject {
 
         // Hard gate.
         if p.native == p.target {
-            let msg = "学习语言不能和母语一样"
+            let msg = String(localized: "translation.same_language")
             previewCard?.translation = msg
             phase = .error(id: id, text: normalized, pair: p, message: msg, retryable: false)
             return
@@ -109,7 +109,7 @@ final class AppStore: ObservableObject {
 
     func retryIfPossible() async {
         guard case .error(let id, let text, let p, _, _) = phase else { return }
-        previewCard?.translation = "翻译中…"
+        previewCard?.translation = String(localized: "translation.in_progress")
         phase = .translating(id: id, text: text, pair: p)
         startTranslation(id: id, text: text, pair: p)
     }
@@ -135,7 +135,7 @@ final class AppStore: ObservableObject {
             try? await Task.sleep(nanoseconds: 15_000_000_000)
             guard case .translating(let activeId, let activeText, let activePair) = self.phase,
                   activeId == id, activeText == text, activePair == pair else { return }
-            let msg = "翻译超时（点重试）"
+            let msg = String(localized: "translation.timeout")
             self.previewCard?.translation = msg
             self.phase = .error(id: id, text: text, pair: pair, message: msg, retryable: true)
             self.translateTask?.cancel()
@@ -166,7 +166,7 @@ final class AppStore: ObservableObject {
         case .success(let translated):
             let word = translated.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !word.isEmpty else {
-                let msg = "我没听懂，你能再说一遍吗？"
+                let msg = String(localized: "translation.did_not_understand")
                 previewCard?.translation = msg
                 phase = .error(id: id, text: text, pair: p, message: msg, retryable: true)
                 return
@@ -199,23 +199,25 @@ final class AppStore: ObservableObject {
     private func errorMessage(for error: Error) -> String {
         let ns = error as NSError
         if ns.domain == NSCocoaErrorDomain, ns.code == 4097 {
-            return "翻译服务正在启动，请稍后再试。"
+            return String(localized: "translation.service_starting")
         }
         if let pe = error as? TranslationPipeline.PipelineError {
             switch pe {
             case .languagePackRequired:
-                return "需要下载语言包。请打开 设置 > 翻译 下载所需语言。"
+                return String(localized: "translation.need_language_pack")
+            case .languagePackDownloading:
+                return String(localized: "translation.downloading_language_pack")
             case .languagePairUnsupported:
-                return "不支持该语言对的翻译。"
+                return String(localized: "translation.unsupported_pair")
             case .timeout:
-                return "翻译超时（点重试）"
+                return String(localized: "translation.timeout")
             case .cancelled:
-                return "翻译已取消（点重试）"
+                return String(localized: "translation.cancelled")
             case .notConfigured:
-                return "翻译未就绪（点重试）"
+                return String(localized: "translation.not_ready")
             }
         }
-        return "翻译失败（点重试）"
+        return String(localized: "translation.failed")
     }
 
     private func normalizeForOneWord(_ s: String) -> String {

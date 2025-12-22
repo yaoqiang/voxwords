@@ -19,6 +19,7 @@ final class TranslationPipeline: ObservableObject {
     enum PipelineError: LocalizedError {
         case notConfigured
         case languagePackRequired
+        case languagePackDownloading
         case languagePairUnsupported
         case timeout
         case cancelled
@@ -29,6 +30,8 @@ final class TranslationPipeline: ObservableObject {
                 return "Translation not configured"
             case .languagePackRequired:
                 return "Language pack not downloaded"
+            case .languagePackDownloading:
+                return "Language pack downloading"
             case .languagePairUnsupported:
                 return "Language pair unsupported"
             case .timeout:
@@ -181,6 +184,7 @@ final class TranslationPipeline: ObservableObject {
 
         let myGen = configurationGeneration
         var didPrepare: Bool = false
+        var didAttemptSystemDownloadPrompt: Bool = false
 
 #if DEBUG
         print("[TranslationPipeline] run start gen=\(myGen)")
@@ -212,7 +216,24 @@ final class TranslationPipeline: ObservableObject {
             case .installed:
                 break
             case .supported:
-                resolve(id: item.id, result: .failure(PipelineError.languagePackRequired))
+                // This is the key UX improvement:
+                // trigger the system download sheet (like Apple's demo) via prepareTranslation().
+                if didAttemptSystemDownloadPrompt == false {
+                    didAttemptSystemDownloadPrompt = true
+                    let ok = await prepareWithRetry(session: session)
+                    didPrepare = didPrepare || ok
+                    // Re-check availability after the user interaction.
+                    let post = await LanguageAvailability().status(from: src, to: dst)
+#if DEBUG
+                    print("[TranslationPipeline] availability(post-prepare) id=\(item.id) status=\(String(describing: post))")
+#endif
+                    if post == .installed {
+                        break
+                    }
+                }
+                // If the user dismissed the system sheet while download continues in background,
+                // it's nicer to explain that "it may still be downloading" rather than a hard error.
+                resolve(id: item.id, result: .failure(didAttemptSystemDownloadPrompt ? PipelineError.languagePackDownloading : PipelineError.languagePackRequired))
                 continue
             case .unsupported:
                 resolve(id: item.id, result: .failure(PipelineError.languagePairUnsupported))

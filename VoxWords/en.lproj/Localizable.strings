@@ -1,0 +1,112 @@
+/* Onboarding */
+"onboarding.native.title" = "What language do you speak?";
+"onboarding.native.subtitle" = "Your everyday language";
+"onboarding.target.title" = "What do you want to learn?";
+"onboarding.target.subtitle" = "We’ll generate cards in this language";
+"onboarding.welcome.subtitle" = "Hold the mic and say a word (e.g. \"apple\").\nGet a card instantly, and tap to hear it.";
+"onboarding.cta.next" = "Next";
+"onboarding.cta.start" = "Start";
+"onboarding.hero.hint" = "A word card appears instantly.";
+"onboarding.tagline" = "Speak · Translate · Listen";
+
+/* Home */
+"home.daycard.empty" = "Start your day with a new word.";
+
+/* Common */
+"common.words_count" = "%d Words";
+"common.delete" = "Delete";
+
+/* Daily */
+"daily.empty.title" = "No words yet";
+"daily.empty.hint" = "Hold the mic and say a word (e.g. \"apple\").\nRelease to generate a card.";
+"daily.listening" = "Listening…";
+"daily.release_to_generate" = "Release to generate";
+"daily.confirm.wait" = "Still translating, please wait…";
+
+/* Translation */
+"translation.in_progress" = "Translating…";
+"translation.timeout" = "Translation timed out (tap retry)";
+"translation.failed" = "Translation failed (tap retry)";
+"translation.service_starting" = "Translation service is starting. Please try again.";
+"translation.need_language_pack" = "Language pack required. Open Settings > Translate to download.";
+"translation.downloading_language_pack" = "Downloading language pack… It may continue in the background. Please try again in a moment.";
+"translation.unsupported_pair" = "This language pair isn’t supported.";
+"translation.cancelled" = "Translation cancelled (tap retry)";
+"translation.not_ready" = "Translation not ready (tap retry)";
+"translation.same_language" = "Native and learning language can’t be the same.";
+"translation.did_not_understand" = "I didn’t catch that — can you say it again?";
+
+/* Settings */
+"settings.title" = "Settings";
+"settings.section.learning" = "Learning";
+"settings.section.support" = "Support";
+"settings.section.about" = "About";
+"settings.upgrade.title" = "Upgrade";
+"settings.upgrade.subtitle" = "Unlock unlimited cards";
+"settings.upgrade.active" = "Active";
+"settings.learning.change_language" = "Change learning language";
+"settings.learning.system_language" = "App language";
+"settings.learning.system_language.subtitle" = "Follow system";
+"settings.learning.open_system_settings" = "Open system settings";
+"settings.speech.rate.title" = "Speech speed";
+"settings.speech.rate.slow" = "Slow";
+"settings.speech.rate.normal" = "Normal";
+"settings.speech.rate.fast" = "Fast";
+"settings.sheet.save" = "Save";
+"settings.sheet.languages" = "Languages";
+"settings.sheet.native" = "Native";
+"settings.sheet.target" = "Target";
+
+/* Support & About (links will be Notion later) */
+"support.contact" = "Contact & Support";
+"support.faq" = "FAQs";
+"support.terms" = "Terms of Use";
+"support.privacy" = "Privacy Policy";
+"settings.footer.made_by" = "VoxWords";
+"settings.footer.made_with" = "Made with care";
+
+/* Paywall */
+"paywall.title" = "VoxWords+";
+"paywall.subtitle" = "Unlimited cards and pronunciation for the whole family.";
+"paywall.feature.unlimited_cards" = "Unlimited word cards";
+"paywall.feature.pronunciation" = "Tap to hear pronunciation";
+"paywall.feature.more_languages" = "More languages supported";
+"paywall.choose_plan" = "Choose a plan";
+"paywall.badge.best_value" = "Best value";
+"paywall.badge.launch" = "Launch offer";
+"paywall.badge.save_percent" = "Save %d%%";
+"paywall.plan.monthly" = "Monthly";
+"paywall.plan.monthly.subtitle" = "Cancel anytime";
+"paywall.plan.yearly" = "Yearly";
+"paywall.plan.yearly.subtitle" = "7‑day free trial (eligible users)";
+"paywall.yearly.per_month" = "≈ %@ / month";
+"paywall.cta.subscribe" = "Continue";
+"paywall.restore" = "Restore purchases";
+"paywall.status.active" = "Premium";
+"paywall.disclaimer" = "Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period.";
+"paywall.privacy" = "Privacy Policy";
+"paywall.terms" = "Terms of Service";
+
+/* In-app FAQ */
+"faq.title" = "FAQs";
+"faq.q1" = "How does VoxWords work?";
+"faq.a1" = "Hold the mic and say a word in your native language. We generate a card in the learning language, and you can tap to hear pronunciation.";
+"faq.q2" = "Why is translation unavailable sometimes?";
+"faq.a2" = "VoxWords uses on-device translation (iOS 18+). Some language pairs require downloading a language pack. The system may continue downloading in the background.";
+"faq.q3" = "Why is audio volume sometimes low?";
+"faq.a3" = "If you just recorded speech, iOS audio session modes can affect playback volume. VoxWords automatically switches back to the best playback mode before speaking.";
+"faq.q4" = "Does VoxWords work offline?";
+"faq.a4" = "If the needed translation language packs are installed, translation can work offline. Speech recognition may still depend on device support.";
+"faq.q5" = "Which languages are supported?";
+"faq.a5" = "Currently: Chinese, English, Japanese, and Korean.";
+"about.voxwords" = "About VoxWords";
+"about.suggest_feature" = "Suggest a Feature";
+"about.page.title" = "About VoxWords";
+"about.page.body" = "VoxWords is an audio‑first word card app for kids and families.\n\nHold the mic and say an everyday word. We instantly create a card in your learning language, and you can tap once to hear pronunciation.\n\nOur goal is simple: turn small daily moments into long‑term language ability.";
+"about.page.cta" = "Start learning";
+"support.links_missing.title" = "Links not set yet";
+"support.links_missing.message" = "Send me the Notion links and I’ll wire them up here.";
+"support.links_missing.ok" = "OK";
+
+/* Retro preview */
+"preview.adjust_hint" = "Not what you expected? Tap to adjust";

@@ -5,51 +5,51 @@ import SwiftUI
 struct RetroWordCard: View {
     let card: VocabularyCard
     let onSpeak: () -> Void
+    var onDelete: (() -> Void)? = nil
+
+    @State private var speakBump: Int = 0
 
     var body: some View {
         Button(action: {
             HapticManager.shared.lightImpact()
+            speakBump &+= 1
             onSpeak()
         }) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text(card.word)
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
-                        .foregroundStyle(Color.black.opacity(0.86))
+                        .foregroundStyle(.primary)
                         .lineLimit(2)
                     Spacer()
                     Image(systemName: "speaker.wave.2.fill")
                         .font(.system(size: 14, weight: .bold))
-                        .foregroundStyle(Color.black.opacity(0.35))
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(.secondary)
+                        .symbolEffect(.bounce, value: speakBump)
                 }
 
                 Text(card.translation)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundStyle(Color.black.opacity(0.55))
+                    .foregroundStyle(.secondary)
                     .lineLimit(2)
             }
             .padding(14)
             .frame(maxWidth: .infinity, minHeight: 108, alignment: .topLeading)
-            .background(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color.white,
-                                Color(red: 0.985, green: 0.975, blue: 0.955)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(Color.black.opacity(0.06), lineWidth: 1)
-            )
-            .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 8)
+            // Use the app-wide glass surface so Dark Mode stays readable.
+            .glassCard(cornerRadius: 18)
         }
         .buttonStyle(.plain)
+        .contextMenu {
+            if let onDelete {
+                Button(role: .destructive) {
+                    HapticManager.shared.mediumImpact()
+                    onDelete()
+                } label: {
+                    Label(String(localized: "common.delete"), systemImage: "trash")
+                }
+            }
+        }
     }
 }
 
@@ -62,12 +62,10 @@ struct RetroPreviewCard: View {
     let onRetry: () -> Void
 
     var body: some View {
-        // CapWords-inspired confirm UI: big centered content + 3 large circular actions.
+        // Confirm UI: big centered content + 3 large circular actions.
         ZStack {
-            // Opaque overlay so text never clashes with underlying cards.
-            // (We keep a subtle dot-grid texture, but block the content behind.)
-            Color.white.ignoresSafeArea()
-            DotGridBackground().ignoresSafeArea().opacity(0.85)
+            // Liquid glass overlay (consistent with the rest of the app).
+            LiquidGlassBackground().ignoresSafeArea()
 
             VStack(spacing: 18) {
                 Spacer()
@@ -90,11 +88,15 @@ struct RetroPreviewCard: View {
 
                     ZStack {
                         RoundedRectangle(cornerRadius: 26, style: .continuous)
-                            .fill(Color.white.opacity(0.95))
-                            .shadow(color: Color.black.opacity(0.10), radius: 18, x: 0, y: 12)
+                            .fill(.ultraThinMaterial)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 26, style: .continuous)
+                                    .stroke(VoxTheme.Glass.stroke, lineWidth: VoxTheme.Glass.strokeWidth)
+                            )
+                            .shadow(color: VoxTheme.Glass.shadow, radius: 18, x: 0, y: 12)
                         Image(systemName: isFailure ? "exclamationmark.triangle.fill" : "sparkles")
                             .font(.system(size: 56, weight: .bold))
-                            .foregroundStyle(Color.black.opacity(isFailure ? 0.45 : 0.30))
+                            .foregroundStyle(.primary.opacity(isFailure ? 0.70 : 0.55))
                     }
                     .frame(width: 140, height: 140)
                 }
@@ -104,7 +106,7 @@ struct RetroPreviewCard: View {
                     HStack(spacing: 10) {
                         Text(card.word)
                             .font(.system(size: 34, weight: .heavy, design: .rounded))
-                            .foregroundStyle(Color.black.opacity(0.86))
+                            .foregroundStyle(.primary)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
 
@@ -114,10 +116,9 @@ struct RetroPreviewCard: View {
                         }) {
                             Image(systemName: "speaker.wave.2.fill")
                                 .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(Color.black.opacity(0.42))
+                                .foregroundStyle(.secondary)
                                 .padding(10)
-                                .background(Color.white.opacity(0.85))
-                                .clipShape(Circle())
+                                .glassIconCircle(size: 44)
                         }
                         .disabled(isFailure)
                         .opacity(isFailure ? 0.45 : 1)
@@ -125,7 +126,8 @@ struct RetroPreviewCard: View {
 
                     Text(card.translation)
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
-                        .foregroundStyle(Color.black.opacity(isFailure ? 0.55 : 0.60))
+                        .foregroundStyle(.secondary)
+                        .opacity(isFailure ? 1.0 : 0.95)
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                 }
@@ -168,14 +170,14 @@ struct RetroPreviewCard: View {
                 HStack(spacing: 10) {
                     Image(systemName: "pencil")
                         .font(.system(size: 14, weight: .bold))
-                    Text("Not what you expected? Tap to adjust")
+                    Text(String(localized: "preview.adjust_hint"))
                         .font(.system(size: 14, weight: .bold, design: .rounded))
                 }
-                .foregroundStyle(Color.black.opacity(0.22))
+                .foregroundStyle(.secondary.opacity(0.8))
                 .padding(.horizontal, 18)
                 .padding(.vertical, 14)
                 .frame(maxWidth: .infinity)
-                .background(Color.white.opacity(0.35))
+                .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .padding(.horizontal, 22)
                 .padding(.bottom, 18)
@@ -195,10 +197,10 @@ struct PreviewPill: View {
             Text(title)
                 .font(.system(size: 14, weight: .bold, design: .rounded))
         }
-        .foregroundStyle(Color.black.opacity(0.78))
+        .foregroundStyle(.primary.opacity(0.9))
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(Color.black.opacity(0.04))
+        .background(.ultraThinMaterial)
         .clipShape(Capsule())
     }
 }
@@ -216,13 +218,16 @@ private struct CircleActionButton: View {
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: systemName)
-                .font(.system(size: style == .primary ? 22 : 20, weight: .bold))
-                .foregroundStyle(Color.black.opacity(style == .primary ? 0.65 : 0.45))
-                .frame(width: style == .primary ? 78 : 68, height: style == .primary ? 78 : 68)
-                .background(Color.white.opacity(style == .primary ? 0.92 : 0.75))
-                .clipShape(Circle())
-                .shadow(color: Color.black.opacity(0.10), radius: 14, x: 0, y: 12)
+            ZStack {
+                Circle()
+                    .fill(.ultraThinMaterial)
+                    .overlay(Circle().stroke(VoxTheme.Glass.stroke, lineWidth: VoxTheme.Glass.strokeWidth))
+                    .shadow(color: VoxTheme.Glass.shadow, radius: 14, x: 0, y: 12)
+                Image(systemName: systemName)
+                    .font(.system(size: style == .primary ? 22 : 20, weight: .bold))
+                    .foregroundStyle(style == .primary ? Color.primary.opacity(0.9) : Color.secondary)
+            }
+            .frame(width: style == .primary ? 78 : 68, height: style == .primary ? 78 : 68)
         }
         .buttonStyle(.plain)
         .disabled(!enabled)

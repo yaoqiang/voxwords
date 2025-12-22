@@ -78,7 +78,7 @@ struct DailyView: View {
             Text(day, format: .dateTime.month(.abbreviated).day())
                 .font(.system(size: 44, weight: .regular, design: .serif))
                 .foregroundStyle(Color.black.opacity(0.88))
-            Text("\(cards.count) Words")
+            Text(String.localizedStringWithFormat(String(localized: "common.words_count"), cards.count))
                 .font(.system(size: 16, weight: .medium, design: .rounded))
                 .foregroundStyle(Color.black.opacity(0.45))
         }
@@ -88,7 +88,7 @@ struct DailyView: View {
     @ViewBuilder
     private var grid: some View {
         if cards.isEmpty {
-            Text("按住说一个中文词，比如「苹果」\n松手后会生成英文卡片")
+            Text(String(localized: "daily.empty.hint"))
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundStyle(Color.black.opacity(0.55))
                 .padding(.vertical, 14)
@@ -172,13 +172,13 @@ struct DailyView: View {
     private func previewOverlay(card: VocabularyCard) -> some View {
         RetroPreviewCard(
             card: card,
-            isFailure: card.translation.contains("点重试")
-                || card.translation.contains("翻译失败")
-                || card.translation.contains("翻译超时")
-                || card.translation.contains("正在启动")
-                || card.translation.contains("需要下载")
-                || card.translation.contains("不支持")
-                || card.translation.contains("未就绪"),
+            isFailure: card.translation.contains(String(localized: "translation.failed"))
+                || card.translation.contains(String(localized: "translation.timeout"))
+                || card.translation.contains(String(localized: "translation.service_starting"))
+                || card.translation.contains(String(localized: "translation.need_language_pack"))
+                || card.translation.contains(String(localized: "translation.unsupported_pair"))
+                || card.translation.contains(String(localized: "translation.not_ready"))
+                || card.translation.contains(String(localized: "translation.cancelled")),
             onSpeak: { onSpeak(card.word) },
             onConfirm: { onConfirm(card) },
             onDismiss: onDismissPreview,

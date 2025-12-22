@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0EA75901F5F2E99B0C08F385 /* TranslationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD508AE62F19053DF3274372 /* TranslationManager.swift */; };
-		B1C2D3E4F5A6B7C8D9E0F123 /* TranslationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */; };
 		130695A040A823C2D45129E5 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D79D0122AD6DA66F01CD95 /* DesignSystem.swift */; };
 		131E6EF3804B6339B1C6EF61 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4580C71F6052518356CDF9 /* OnboardingView.swift */; };
 		26747B18A4D757E435755B7B /* DailyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C55E4607E73408FB617D0CA /* DailyView.swift */; };
@@ -18,31 +17,33 @@
 		35E9C2095464297C0E42D494 /* StickerKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B17B39316C38BF4F1A23FE /* StickerKit.swift */; };
 		446B4D78139334A563DA7FA3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128D967945EBB58BDDBEEDE8 /* SettingsView.swift */; };
 		5320999BFFFFDD4C08AA9B85 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20288A9774F82807F3B1FF30 /* RecordButton.swift */; };
-		5540D58105C17AD3FD190D3D /* POCChartsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD1E6A3DB5857996ED215E /* POCChartsSection.swift */; };
 		5917B9E9C6CDDF8C20A340F5 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D032F81C017EC62696A4262E /* HapticManager.swift */; };
 		5CF23B7D4954FC05A749C870 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120E000BDC31452D4012C50C /* SpeechManager.swift */; };
+		6A0B1C2D3E4F556677889901 /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B1C2D3E4F556677889902 /* PurchaseManager.swift */; };
 		7465AA9182F36201B6892163 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B4F70AA04A3CEC9B21B9 /* HomeView.swift */; };
 		80C250EDC6B186C5E1B88870 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB04A5088D2EFE1B1CE1C4A /* CardView.swift */; };
 		8CA3C9A4A448CECAA00237D4 /* VoxWordsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F9004D4985123142443C0D /* VoxWordsApp.swift */; };
 		93069D4E7C1D9D7A92583498 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */; };
 		A592F58AD345F4C0DBD8CD2A /* TranslationHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DCA803EC2879C247322478 /* TranslationHost.swift */; };
-		A9D14491A89695DF4ECE23A4 /* POCDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E5BC685D0B236022445DD /* POCDemoView.swift */; };
+		AA11BB22CC33DD44EE55FF66 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA11BB22CC33DD44EE55FF67 /* Localizable.strings */; };
+		CC11BB22CC33DD44EE55AA01 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC11BB22CC33DD44EE55AA00 /* InfoPlist.strings */; };
+		B1C2D3E4F5A6B7C8D9E0F123 /* TranslationPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */; };
 		B5683B956716628F12CE13D0 /* RetroCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C00ED48694071CC2520F098 /* RetroCards.swift */; };
 		B83456CEB9F7671BD994CEC9 /* WordEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5082F70DC9176932FE07220C /* WordEntry.swift */; };
 		C0C365420C60CF8BB8703794 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A967D710417384883DE2C0 /* AppStore.swift */; };
 		CDF84814B0B9AF779F6216A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2091FA76023F4A83C2B80A4 /* Assets.xcassets */; };
 		E0F2F6ABBB49050EE29550FB /* VocabularyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC05C02429DACC1E33004DD /* VocabularyCard.swift */; };
 		F9C290BB183EFE307D164940 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B46C02AFC55552506E74EA /* ContentView.swift */; };
+		7B8C9D0E1F22334455667788 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8C9D0E1F22334455667789 /* PaywallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		07DCA803EC2879C247322478 /* TranslationHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationHost.swift; sourceTree = "<group>"; };
 		0C4580C71F6052518356CDF9 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		120E000BDC31452D4012C50C /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
-		A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPipeline.swift; sourceTree = "<group>"; };
+		6A0B1C2D3E4F556677889902 /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		128D967945EBB58BDDBEEDE8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		150A8719C9C22E9B943981A7 /* VoxWords.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoxWords.entitlements; sourceTree = "<group>"; };
-		1A6E5BC685D0B236022445DD /* POCDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POCDemoView.swift; sourceTree = "<group>"; };
 		20288A9774F82807F3B1FF30 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		2F9F6F91D2950A7B148D1157 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		37A10B1A334E0D7B0A9D88A4 /* VisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionManager.swift; sourceTree = "<group>"; };
@@ -54,13 +55,22 @@
 		8C55E4607E73408FB617D0CA /* DailyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyView.swift; sourceTree = "<group>"; };
 		8EC05C02429DACC1E33004DD /* VocabularyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyCard.swift; sourceTree = "<group>"; };
 		94B17B39316C38BF4F1A23FE /* StickerKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerKit.swift; sourceTree = "<group>"; };
+		7B8C9D0E1F22334455667789 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationPipeline.swift; sourceTree = "<group>"; };
+		AA11BB22CC33DD44EE55FF68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AA11BB22CC33DD44EE55FF69 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		AA11BB22CC33DD44EE55FF6A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AA11BB22CC33DD44EE55FF6B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CC11BB22CC33DD44EE55AA02 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CC11BB22CC33DD44EE55AA03 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		CC11BB22CC33DD44EE55AA04 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CC11BB22CC33DD44EE55AA05 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B5D4B4F70AA04A3CEC9B21B9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BEB04A5088D2EFE1B1CE1C4A /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		C85672892722C96390586D9F /* VisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerView.swift; sourceTree = "<group>"; };
 		D032F81C017EC62696A4262E /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		D9F9004D4985123142443C0D /* VoxWordsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxWordsApp.swift; sourceTree = "<group>"; };
 		E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-		EFAD1E6A3DB5857996ED215E /* POCChartsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POCChartsSection.swift; sourceTree = "<group>"; };
 		F2091FA76023F4A83C2B80A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4B46C02AFC55552506E74EA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD508AE62F19053DF3274372 /* TranslationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationManager.swift; sourceTree = "<group>"; };
@@ -90,11 +100,20 @@
 				58A967D710417384883DE2C0 /* AppStore.swift */,
 				D032F81C017EC62696A4262E /* HapticManager.swift */,
 				120E000BDC31452D4012C50C /* SpeechManager.swift */,
+				6A0B1C2D3E4F556677889902 /* PurchaseManager.swift */,
 				FD508AE62F19053DF3274372 /* TranslationManager.swift */,
 				A6D4B8E3C2F14A6D9B0C1234 /* TranslationPipeline.swift */,
 				37A10B1A334E0D7B0A9D88A4 /* VisionManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		8F7E6D5C4B3A291807060504 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				7B8C9D0E1F22334455667789 /* PaywallView.swift */,
+			);
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		2F39B8CC409D480458EC987F /* Settings */ = {
@@ -119,6 +138,8 @@
 			children = (
 				F2091FA76023F4A83C2B80A4 /* Assets.xcassets */,
 				F4B46C02AFC55552506E74EA /* ContentView.swift */,
+				AA11BB22CC33DD44EE55FF67 /* Localizable.strings */,
+				CC11BB22CC33DD44EE55AA00 /* InfoPlist.strings */,
 				2F9F6F91D2950A7B148D1157 /* Info.plist */,
 				150A8719C9C22E9B943981A7 /* VoxWords.entitlements */,
 				D9F9004D4985123142443C0D /* VoxWordsApp.swift */,
@@ -191,6 +212,7 @@
 				C3798221D7D0984E354D32D0 /* Demos */,
 				0C3ED2BC7CA5D3624226468A /* Home */,
 				8C784242496DBA7E9E1D93EE /* Onboarding */,
+				8F7E6D5C4B3A291807060504 /* Paywall */,
 				09700788473730536BFDB4A0 /* Practice */,
 				2F39B8CC409D480458EC987F /* Settings */,
 			);
@@ -201,8 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				80CB50739EBB2EF784C20109 /* MoodGravityScene.swift */,
-				EFAD1E6A3DB5857996ED215E /* POCChartsSection.swift */,
-				1A6E5BC685D0B236022445DD /* POCDemoView.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -249,6 +269,9 @@
 			knownRegions = (
 				Base,
 				en,
+				ja,
+				ko,
+				"zh-Hans",
 			);
 			mainGroup = 49133AC465DC35F36E4CEA43;
 			minimizedProjectReferenceProxies = 1;
@@ -266,6 +289,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDF84814B0B9AF779F6216A6 /* Assets.xcassets in Resources */,
+				AA11BB22CC33DD44EE55FF66 /* Localizable.strings in Resources */,
+				CC11BB22CC33DD44EE55AA01 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,8 +310,8 @@
 				7465AA9182F36201B6892163 /* HomeView.swift in Sources */,
 				35DAAF338E63D4DA1382DDC2 /* MoodGravityScene.swift in Sources */,
 				131E6EF3804B6339B1C6EF61 /* OnboardingView.swift in Sources */,
-				5540D58105C17AD3FD190D3D /* POCChartsSection.swift in Sources */,
-				A9D14491A89695DF4ECE23A4 /* POCDemoView.swift in Sources */,
+				7B8C9D0E1F22334455667788 /* PaywallView.swift in Sources */,
+				6A0B1C2D3E4F556677889901 /* PurchaseManager.swift in Sources */,
 				5320999BFFFFDD4C08AA9B85 /* RecordButton.swift in Sources */,
 				B5683B956716628F12CE13D0 /* RetroCards.swift in Sources */,
 				446B4D78139334A563DA7FA3 /* SettingsView.swift in Sources */,
@@ -305,6 +330,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AA11BB22CC33DD44EE55FF67 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA11BB22CC33DD44EE55FF68 /* en */,
+				AA11BB22CC33DD44EE55FF69 /* zh-Hans */,
+				AA11BB22CC33DD44EE55FF6A /* ja */,
+				AA11BB22CC33DD44EE55FF6B /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		CC11BB22CC33DD44EE55AA00 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC11BB22CC33DD44EE55AA02 /* en */,
+				CC11BB22CC33DD44EE55AA03 /* zh-Hans */,
+				CC11BB22CC33DD44EE55AA04 /* ja */,
+				CC11BB22CC33DD44EE55AA05 /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D236C2498A71A3988C8DD804 /* Debug */ = {
@@ -387,6 +437,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 444QN3PJ96;
 				INFOPLIST_FILE = VoxWords/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -470,6 +521,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 444QN3PJ96;
 				INFOPLIST_FILE = VoxWords/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

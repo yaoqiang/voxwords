@@ -1,0 +1,3 @@
+"NSMicrophoneUsageDescription" = "VoxWords는 음성을 녹음해 단어 카드를 만들기 위해 마이크 접근이 필요해요.";
+"NSSpeechRecognitionUsageDescription" = "VoxWords는 번역을 위해 음성을 텍스트로 바꾸는 음성 인식을 사용해요.";
+

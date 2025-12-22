@@ -13,6 +13,7 @@ struct VoxWordsApp: App {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var speechManager = SpeechManager()
     @StateObject private var store = AppStore()
+    @StateObject private var purchase = PurchaseManager()
 
     @State private var didSchedulePostLaunchWarmups: Bool = false
     
@@ -25,11 +26,16 @@ struct VoxWordsApp: App {
                     OnboardingView(isCompleted: $hasCompletedOnboarding)
                 }
             }
+            .environmentObject(purchase)
             .overlay {
                 // Keep TranslationSession alive across navigation changes.
                 if hasCompletedOnboarding {
                     TranslationHost(pipeline: store.translationPipeline)
                 }
+            }
+            .onAppear {
+                // Start observing entitlements early so "restore" reflects immediately.
+                purchase.start()
             }
             .onChange(of: scenePhase) { _, newPhase in
                 guard newPhase == .active else { return }
@@ -54,13 +60,17 @@ extension VoxWordsApp {
         guard didSchedulePostLaunchWarmups == false else { return }
         didSchedulePostLaunchWarmups = true
 
-        // Delay warmups until after first render, so cold start remains smooth.
+        // NOTE:
+        // Output warmup can still occasionally take several seconds depending on audio-server state / route.
+        // We therefore only attempt it after a longer idle delay, and only if the user isn't recording.
+        //
+        // (Also: avoid doing anything that could trigger IPCAUClient logs during the initial cold-start window.)
         Task(priority: .utility) { [speechManager] in
-            try? await Task.sleep(nanoseconds: 1_200_000_000)
-            // Only warm the OUTPUT path; input priming can be noticeably expensive on cold start.
+            try? await Task.sleep(nanoseconds: 4_500_000_000)
+            guard Task.isCancelled == false else { return }
+            let shouldWarm = await MainActor.run { speechManager.isRecording == false }
+            guard shouldWarm else { return }
             speechManager.prewarmAudioOutput()
-            // Do NOT prewarm TTS voice on launch; AVSpeechSynthesizer can trigger blocking IPC work.
-            // Voice warmup will happen on-demand when the user taps speak, and when they change target language.
         }
     }
 }

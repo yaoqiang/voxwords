@@ -1,0 +1,109 @@
+/* Onboarding */
+"onboarding.native.title" = "普段話す言語は？";
+"onboarding.native.subtitle" = "日常で使う言語";
+"onboarding.target.title" = "学びたい言語は？";
+"onboarding.target.subtitle" = "この言語でカードを作ります";
+"onboarding.welcome.subtitle" = "マイクを長押しして単語を言ってみよう（例：\"りんご\"）。\nすぐにカードができて、タップで発音が聞けます。";
+"onboarding.cta.next" = "次へ";
+"onboarding.cta.start" = "はじめる";
+"onboarding.hero.hint" = "すぐに単語カードができます。";
+"onboarding.tagline" = "話す · 翻訳 · 聞く";
+
+/* Home */
+"home.daycard.empty" = "今日の新しい単語から始めよう。";
+
+/* Common */
+"common.words_count" = "%d 語";
+"common.delete" = "削除";
+
+/* Daily */
+"daily.empty.title" = "まだ単語がありません";
+"daily.empty.hint" = "マイクを長押しして単語を言ってみよう。\n離すとカードが生成されます。";
+"daily.listening" = "聞き取り中…";
+"daily.release_to_generate" = "離して作成";
+"daily.confirm.wait" = "翻訳中です。少し待ってね…";
+
+/* Translation */
+"translation.in_progress" = "翻訳中…";
+"translation.timeout" = "翻訳がタイムアウトしました（再試行）";
+"translation.failed" = "翻訳に失敗しました（再試行）";
+"translation.service_starting" = "翻訳サービスを起動中です。もう一度試してください。";
+"translation.need_language_pack" = "言語パックが必要です。設定 > 翻訳 でダウンロードしてください。";
+"translation.downloading_language_pack" = "言語パックをダウンロード中… バックグラウンドで続行する場合があります。少し待って再試行してください。";
+"translation.unsupported_pair" = "この言語ペアは対応していません。";
+"translation.cancelled" = "翻訳をキャンセルしました（再試行）";
+"translation.not_ready" = "翻訳の準備ができていません（再試行）";
+"translation.same_language" = "母語と学習言語は同じにできません";
+"translation.did_not_understand" = "うまく聞き取れませんでした。もう一度言ってください。";
+
+/* Settings */
+"settings.title" = "設定";
+"settings.section.learning" = "学習";
+"settings.section.support" = "サポート";
+"settings.section.about" = "情報";
+"settings.upgrade.title" = "アップグレード";
+"settings.upgrade.subtitle" = "カードを無制限に";
+"settings.upgrade.active" = "有効";
+"settings.learning.change_language" = "学習言語を変更";
+"settings.learning.system_language" = "アプリの言語";
+"settings.learning.system_language.subtitle" = "システムに従う";
+"settings.learning.open_system_settings" = "システム設定を開く";
+"settings.speech.rate.title" = "音声速度";
+"settings.speech.rate.slow" = "遅い";
+"settings.speech.rate.normal" = "普通";
+"settings.speech.rate.fast" = "速い";
+"settings.sheet.save" = "保存";
+"settings.sheet.languages" = "言語";
+"settings.sheet.native" = "母語";
+"settings.sheet.target" = "学習";
+
+/* Support & About (links will be Notion later) */
+"support.contact" = "お問い合わせ";
+"support.faq" = "よくある質問";
+"support.terms" = "利用規約";
+"support.privacy" = "プライバシーポリシー";
+"settings.footer.made_by" = "VoxWords";
+"settings.footer.made_with" = "心を込めて";
+
+/* Paywall */
+"paywall.title" = "VoxWords+";
+"paywall.subtitle" = "カード無制限と発音を家族みんなで。";
+"paywall.feature.unlimited_cards" = "単語カード無制限";
+"paywall.feature.pronunciation" = "タップで発音";
+"paywall.feature.more_languages" = "より多くの言語に対応";
+"paywall.choose_plan" = "プランを選択";
+"paywall.badge.best_value" = "おすすめ";
+"paywall.badge.launch" = "ローンチ特価";
+"paywall.badge.save_percent" = "%d%% お得";
+"paywall.plan.monthly" = "月額";
+"paywall.plan.monthly.subtitle" = "いつでも解約";
+"paywall.plan.yearly" = "年額";
+"paywall.plan.yearly.subtitle" = "7日間無料（対象ユーザー）";
+"paywall.yearly.per_month" = "月あたり約 %@";
+"paywall.cta.subscribe" = "続ける";
+"paywall.restore" = "購入を復元";
+"paywall.status.active" = "有効";
+"paywall.disclaimer" = "サブスクリプションは自動更新されます。期間終了の24時間前までに解約しない限り更新されます。";
+"paywall.privacy" = "プライバシーポリシー";
+"paywall.terms" = "利用規約";
+
+/* In-app FAQ */
+"faq.title" = "よくある質問";
+"faq.q1" = "VoxWords の使い方は？";
+"faq.a1" = "マイクを押しながら母語で単語を話すと、学習言語のカードが作成されます。タップすると発音を聞けます。";
+"faq.q2" = "翻訳が使えないことがあるのはなぜ？";
+"faq.a2" = "VoxWords は iOS 18+ のオンデバイス翻訳を使用します。言語の組み合わせによっては言語パックのダウンロードが必要です。ダウンロードはバックグラウンドで続く場合があります。";
+"faq.q3" = "音量が小さくなることがあるのはなぜ？";
+"faq.a3" = "録音直後は iOS のオーディオセッション設定により再生音量が影響を受けることがあります。VoxWords は再生前に適切なモードへ自動で切り替えます。";
+"faq.q4" = "オフラインで使えますか？";
+"faq.a4" = "必要な翻訳言語パックがインストールされていれば、翻訳はオフラインでも動作します。音声認識は端末やシステムの対応状況に依存します。";
+"faq.q5" = "対応言語は？";
+"faq.a5" = "現在：中文、英語、日本語、韓国語。";
+"about.voxwords" = "VoxWords について";
+"about.suggest_feature" = "機能提案（レビュー）";
+"support.links_missing.title" = "リンク未設定";
+"support.links_missing.message" = "Notion のリンクを共有してくれたら、ここに設定します。";
+"support.links_missing.ok" = "OK";
+
+/* Retro preview */
+"preview.adjust_hint" = "思ったのと違う？タップして調整";

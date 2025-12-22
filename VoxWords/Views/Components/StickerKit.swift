@@ -2,6 +2,7 @@ import SwiftUI
 
 // MARK: - Dot Grid Background
 struct DotGridBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
     var base: Color = VoxTheme.Colors.canvas
     var dot: Color = VoxTheme.Colors.dotGrid
     var spacing: CGFloat = 6
@@ -26,6 +27,68 @@ struct DotGridBackground: View {
                 context.opacity = opacity
                 context.fill(path, with: .color(dot))
             }
+            .ignoresSafeArea()
+        }
+    }
+}
+
+// MARK: - Liquid Glass Background (global)
+
+/// A cohesive "liquid glass" backdrop: soft blobs + subtle dot texture.
+/// Use this as the global background so Material surfaces feel consistent.
+struct LiquidGlassBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+    var body: some View {
+        let isDark = (colorScheme == .dark)
+        ZStack {
+            (isDark ? Color(hex: "0B0B0D") : VoxTheme.Colors.canvas)
+                .ignoresSafeArea()
+
+            // Soft color blobs (very low contrast).
+            RadialGradient(
+                colors: [
+                    VoxTheme.Colors.softPink.opacity(isDark ? 0.10 : 0.30),
+                    Color.clear
+                ],
+                center: .topLeading,
+                startRadius: 40,
+                endRadius: 520
+            )
+            .ignoresSafeArea()
+            .blur(radius: 28)
+
+            RadialGradient(
+                colors: [
+                    VoxTheme.Colors.warmPeach.opacity(isDark ? 0.09 : 0.26),
+                    Color.clear
+                ],
+                center: .bottomTrailing,
+                startRadius: 60,
+                endRadius: 560
+            )
+            .ignoresSafeArea()
+            .blur(radius: 30)
+
+            RadialGradient(
+                colors: [
+                    VoxTheme.Colors.sageGreen.opacity(isDark ? 0.06 : 0.14),
+                    Color.clear
+                ],
+                center: .topTrailing,
+                startRadius: 40,
+                endRadius: 520
+            )
+            .ignoresSafeArea()
+            .blur(radius: 30)
+
+            // Subtle dot texture to keep the brand DNA.
+            DotGridBackground(
+                base: .clear,
+                dot: (isDark ? Color.white.opacity(0.18) : VoxTheme.Colors.dotGrid),
+                spacing: 10,
+                radius: 1,
+                opacity: isDark ? 0.05 : 0.07
+            )
             .ignoresSafeArea()
         }
     }

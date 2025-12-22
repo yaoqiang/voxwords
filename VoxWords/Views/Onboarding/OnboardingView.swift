@@ -1,8 +1,8 @@
 import SwiftUI
-import Translation
+import Foundation
 
 /// Onboarding flow for first-time users
-/// Guides users through language selection with CapWords-style aesthetics
+/// Guides users through language selection with VoxWords aesthetics
 struct OnboardingView: View {
     // MARK: - Bindings
     @Binding var isCompleted: Bool
@@ -17,19 +17,10 @@ struct OnboardingView: View {
     @State private var selectedTargetLanguage: String?
     @State private var showContent = false
     
-    // Translation prewarm (iOS 18+)
-    @StateObject private var prewarmPipeline = TranslationPipeline()
-    @State private var isPreparingTranslation: Bool = false
-    @State private var prepareError: String?
-    
     var body: some View {
         ZStack {
-            VoxTheme.Colors.canvas
+            LiquidGlassBackground()
                 .ignoresSafeArea()
-            
-            OnboardingDotGridBackground()
-                .ignoresSafeArea()
-                .opacity(0.35)
             
             VStack(spacing: 0) {
                 progressView
@@ -42,27 +33,43 @@ struct OnboardingView: View {
                         .tag(0)
                     
                     languageStep(
-                        title: "你说什么语言？",
-                        subtitle: "这是你和孩子的日常语言",
+                        title: String(localized: "onboarding.native.title"),
+                        subtitle: String(localized: "onboarding.native.subtitle"),
                         selection: $selectedNativeLanguage,
                         options: [
                             ("zh-CN", "中文", "🇨🇳"),
                             ("en-US", "English", "🇺🇸"),
                             ("ja-JP", "日本語", "🇯🇵"),
-                            ("ko-KR", "한국어", "🇰🇷")
+                            ("ko-KR", "한국어", "🇰🇷"),
+                            ("fr-FR", "Français", "🇫🇷"),
+                            ("es-ES", "Español", "🇪🇸"),
+                            ("de-DE", "Deutsch", "🇩🇪"),
+                            ("it-IT", "Italiano", "🇮🇹"),
+                            ("pt-BR", "Português", "🇧🇷"),
+                            ("id-ID", "Bahasa Indonesia", "🇮🇩"),
+                            ("vi-VN", "Tiếng Việt", "🇻🇳"),
+                            ("th-TH", "ไทย", "🇹🇭")
                         ]
                     )
                     .tag(1)
                     
                     languageStep(
-                        title: "想学什么语言？",
-                        subtitle: "我们会用这个语言生成卡片",
+                        title: String(localized: "onboarding.target.title"),
+                        subtitle: String(localized: "onboarding.target.subtitle"),
                         selection: $selectedTargetLanguage,
                         options: [
                             ("zh-CN", "中文", "🇨🇳"),
                             ("en-US", "English", "🇺🇸"),
                             ("ja-JP", "日本語", "🇯🇵"),
-                            ("ko-KR", "한국어", "🇰🇷")
+                            ("ko-KR", "한국어", "🇰🇷"),
+                            ("fr-FR", "Français", "🇫🇷"),
+                            ("es-ES", "Español", "🇪🇸"),
+                            ("de-DE", "Deutsch", "🇩🇪"),
+                            ("it-IT", "Italiano", "🇮🇹"),
+                            ("pt-BR", "Português", "🇧🇷"),
+                            ("id-ID", "Bahasa Indonesia", "🇮🇩"),
+                            ("vi-VN", "Tiếng Việt", "🇻🇳"),
+                            ("th-TH", "ไทย", "🇹🇭")
                         ]
                     )
                     .tag(2)
@@ -80,9 +87,6 @@ struct OnboardingView: View {
                     .opacity(showContent ? 1 : 0)
                     .offset(y: showContent ? 0 : 20)
             }
-        }
-        .overlay(alignment: .topLeading) {
-            TranslationHost(pipeline: prewarmPipeline)
         }
         .onAppear {
             initializeSelection()
@@ -120,12 +124,12 @@ struct OnboardingView: View {
             VStack(spacing: 14) {
                 Text("VoxWords")
                     .font(VoxTheme.Typography.heroTitle)
-                    .foregroundColor(VoxTheme.Colors.deepBrown)
+                    .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
                 
-                Text("按住说一个中文词，比如「苹果」\n马上得到英文卡片，并一键听发音")
+                Text(String(localized: "onboarding.welcome.subtitle"))
                     .font(VoxTheme.Typography.heroSubtitle)
-                    .foregroundColor(VoxTheme.Colors.warmGray)
+                    .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, VoxTheme.Dimensions.largePadding)
             }
@@ -144,32 +148,42 @@ struct OnboardingView: View {
         selection: Binding<String?>,
         options: [(String, String, String)]
     ) -> some View {
-        VStack(spacing: 28) {
-            VStack(spacing: 12) {
-                Text(title)
-                    .font(VoxTheme.Typography.title)
-                    .foregroundColor(VoxTheme.Colors.deepBrown)
-                
-                Text(subtitle)
-                    .font(VoxTheme.Typography.body)
-                    .foregroundColor(VoxTheme.Colors.warmGray)
-            }
-            .multilineTextAlignment(.center)
-            .padding(.top, 32)
-            
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                ForEach(options, id: \.0) { option in
-                    LanguageOption(
-                        code: option.0,
-                        name: option.1,
-                        icon: option.2,
-                        selection: selection
-                    )
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 22) {
+                VStack(spacing: 12) {
+                    Text(title)
+                        .font(VoxTheme.Typography.title)
+                        .foregroundStyle(.primary)
+                    
+                    Text(subtitle)
+                        .font(VoxTheme.Typography.body)
+                        .foregroundStyle(.secondary)
                 }
+                .multilineTextAlignment(.center)
+                .padding(.top, 12)
+                
+                // Adaptive grid so more languages fit on-screen.
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: 150), spacing: 14)],
+                    spacing: 14
+                ) {
+                    ForEach(options, id: \.0) { option in
+                        LanguageOption(
+                            code: option.0,
+                            name: option.1,
+                            icon: option.2,
+                            selection: selection
+                        )
+                    }
+                }
+                .padding(.horizontal, 4)
+                
+                // Leave space above the CTA area.
+                Spacer(minLength: 90)
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
         }
-        .padding()
     }
     
     private func nextStep() {
@@ -192,7 +206,7 @@ struct OnboardingView: View {
     }
 }
 
-// MARK: - CapWords-style Components
+    // MARK: - Components
 
 private struct OnboardingDotGridBackground: View {
     private let spacing: CGFloat = 22
@@ -220,15 +234,15 @@ private struct OnboardingHeroCard: View {
     var body: some View {
         VStack(spacing: 16) {
             ZStack {
-                RoundedRectangle(cornerRadius: VoxTheme.Dimensions.cardCornerRadius)
-                    .fill(VoxTheme.Colors.cardSurface)
-                    .shadow(color: VoxTheme.Shadows.hero, radius: VoxTheme.Shadows.heroRadius, y: VoxTheme.Shadows.heroY)
+                RoundedRectangle(cornerRadius: VoxTheme.Dimensions.cardCornerRadius, style: .continuous)
+                    .fill(.clear)
+                    .glassCard(cornerRadius: VoxTheme.Dimensions.cardCornerRadius)
                 
                 VStack(spacing: 18) {
                     ZStack {
-                        RoundedRectangle(cornerRadius: VoxTheme.Dimensions.cardCornerRadius * 0.8)
-                            .fill(VoxTheme.Colors.cardSurface)
-                            .shadow(color: Color.black.opacity(0.08), radius: 12, y: 8)
+                        RoundedRectangle(cornerRadius: VoxTheme.Dimensions.cardCornerRadius * 0.8, style: .continuous)
+                            .fill(.clear)
+                            .glassCard(cornerRadius: VoxTheme.Dimensions.cardCornerRadius * 0.8)
                             .rotationEffect(.degrees(-8))
                             .offset(y: 6)
                         
@@ -237,8 +251,8 @@ private struct OnboardingHeroCard: View {
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        VoxTheme.Colors.warmCream.opacity(0.9),
-                                        VoxTheme.Colors.softPink.opacity(0.25)
+                                        Color.white.opacity(0.20),
+                                        VoxTheme.Colors.softPink.opacity(0.18)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -246,22 +260,29 @@ private struct OnboardingHeroCard: View {
                             )
                             .frame(width: VoxTheme.Dimensions.heroImageSize, height: VoxTheme.Dimensions.heroImageSize)
                             .overlay(
-                                Image(systemName: "sparkles")
-                                    .font(.system(size: 40, weight: .semibold))
-                                    .foregroundColor(VoxTheme.Colors.warmGray.opacity(0.35))
+                                VStack(spacing: 10) {
+                                    Image(systemName: "mic.fill")
+                                        .font(.system(size: 34, weight: .bold))
+                                        .foregroundStyle(.secondary.opacity(0.7))
+                                    
+                                    HStack(spacing: 10) {
+                                        MiniWordChip(text: "CAT", systemIcon: "speaker.wave.2.fill")
+                                        MiniWordChip(text: "猫", systemIcon: nil)
+                                    }
+                                }
                             )
                             .rotationEffect(.degrees(-8))
-                            .shadow(color: Color.black.opacity(0.1), radius: 10, y: 6)
+                            .shadow(color: Color.black.opacity(0.10), radius: 10, y: 6)
                     }
                     
                     VStack(spacing: 8) {
-                        Text("Un Cornet De Glace")
+                        Text("Cat")
                             .font(VoxTheme.Typography.wordDisplay)
-                            .foregroundColor(VoxTheme.Colors.deepBrown)
+                            .foregroundStyle(.primary)
                         
-                        Text("Ice cream cone · 法语示例词")
+                        Text(String(localized: "onboarding.hero.hint"))
                             .font(VoxTheme.Typography.body)
-                            .foregroundColor(VoxTheme.Colors.warmGray)
+                            .foregroundStyle(.secondary)
                     }
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 4)
@@ -272,11 +293,37 @@ private struct OnboardingHeroCard: View {
     }
 }
 
+private struct MiniWordChip: View {
+    let text: String
+    let systemIcon: String?
+    var body: some View {
+        HStack(spacing: 6) {
+            Text(text)
+                .font(.system(size: 13, weight: .bold, design: .rounded))
+                .foregroundStyle(.primary.opacity(0.9))
+            if let systemIcon {
+                Image(systemName: systemIcon)
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(
+            Capsule(style: .continuous)
+                .fill(.ultraThinMaterial)
+                .overlay(Capsule(style: .continuous).stroke(VoxTheme.Glass.stroke, lineWidth: VoxTheme.Glass.strokeWidth))
+        )
+    }
+}
+
 private extension OnboardingView {
     var footerCTA: some View {
         VStack(spacing: 14) {
             Button(action: nextStep) {
-                Text(currentStep == 2 ? "开始体验" : "下一步")
+                Text(currentStep == 2
+                     ? String(localized: "onboarding.cta.start")
+                     : String(localized: "onboarding.cta.next"))
                     .font(VoxTheme.Typography.headline)
                     .foregroundColor(VoxTheme.Colors.accentYellow)
                     .frame(maxWidth: .infinity)
@@ -287,40 +334,10 @@ private extension OnboardingView {
             }
             .buttonStyle(ScaleButtonStyle())
             
-            if currentStep == 2 {
-                Button(action: prepareTranslation) {
-                    HStack(spacing: 8) {
-                        if isPreparingTranslation {
-                            ProgressView().tint(VoxTheme.Colors.warmGray)
-                        } else {
-                            Image(systemName: "arrow.down.circle")
-                                .font(.system(size: 14, weight: .semibold))
-                        }
-                        Text(isPreparingTranslation ? "正在准备离线翻译…" : "准备离线翻译（可选）")
-                            .font(VoxTheme.Typography.body)
-                    }
-                    .foregroundColor(VoxTheme.Colors.warmGray)
-                }
-                .disabled(isPreparingTranslation)
-                
-                if let prepareError {
-                    Text(prepareError)
-                        .font(VoxTheme.Typography.caption)
-                        .foregroundColor(VoxTheme.Colors.warmGray.opacity(0.8))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 10)
-                }
-            }
-            
-            HStack(spacing: 6) {
-                Image(systemName: "camera.aperture")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(VoxTheme.Colors.warmGray.opacity(0.8))
-                Text("Audio-first · CapWords-inspired")
-                    .font(VoxTheme.Typography.caption)
-                    .foregroundColor(VoxTheme.Colors.warmGray.opacity(0.8))
-            }
-            .padding(.top, 4)
+            Text(String(localized: "onboarding.tagline"))
+                .font(VoxTheme.Typography.caption)
+                .foregroundStyle(.secondary.opacity(0.85))
+                .padding(.top, 4)
         }
     }
 }
@@ -331,31 +348,6 @@ extension OnboardingView {
         // Initialize selections from stored AppStorage values or sensible defaults
         selectedNativeLanguage = nativeLanguage
         selectedTargetLanguage = targetLanguage == nativeLanguage ? "en-US" : targetLanguage
-    }
-    
-    @MainActor
-    private func prepareTranslation() {
-        guard #available(iOS 18.0, *) else { return }
-        guard let src = selectedNativeLanguage ?? nativeLanguage as String?,
-              let dst = selectedTargetLanguage ?? targetLanguage as String? else { return }
-        isPreparingTranslation = true
-        prepareError = nil
-        
-        prewarmPipeline.setLanguagePair(
-            source: Locale.Language(identifier: src),
-            target: Locale.Language(identifier: dst)
-        )
-        
-        Task { @MainActor in
-            let result = await prewarmPipeline.translate(id: UUID(), text: "苹果")
-            self.isPreparingTranslation = false
-            switch result {
-            case .success:
-                self.prepareError = nil
-            case .failure:
-                self.prepareError = "准备失败：可能需要先下载离线语言包"
-            }
-        }
     }
 }
 
@@ -378,12 +370,11 @@ struct LanguageOption: View {
                 Text(icon).font(.system(size: 40))
                 Text(name)
                     .font(VoxTheme.Typography.headline)
-                    .foregroundColor(isSelected ? VoxTheme.Colors.deepBrown : VoxTheme.Colors.warmGray)
+                    .foregroundStyle(isSelected ? .primary : .secondary)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 120)
-            .background(Color.white)
-            .cornerRadius(24)
+            .glassCard(cornerRadius: 24)
             .overlay(
                 RoundedRectangle(cornerRadius: 24)
                     .stroke(isSelected ? VoxTheme.Colors.softPink : Color.clear, lineWidth: 4)

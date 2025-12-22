@@ -12,10 +12,10 @@ struct TranslationHost: View {
         Color.clear
             .frame(width: 0, height: 0)
             .translationTask(pipeline.configuration) { @MainActor session in
-                #if DEBUG
+#if DEBUG
                 print("[TranslationHost] task start config=\(String(describing: pipeline.configuration))")
                 defer { print("[TranslationHost] task end") }
-                #endif
+#endif
                 await pipeline.run(session: session)
             }
     }

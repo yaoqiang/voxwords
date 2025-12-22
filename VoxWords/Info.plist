@@ -40,11 +40,9 @@
     <key>UIRequiresFullScreen</key>
     <true/>
     <key>NSMicrophoneUsageDescription</key>
-    <string>用于录音捕捉学习场景</string>
+    <string>VoxWords needs microphone access to record your voice and create word cards.</string>
     <key>NSSpeechRecognitionUsageDescription</key>
-    <string>用于语音转文字生成学习卡片</string>
-    <key>NSCameraUsageDescription</key>
-    <string>用于视觉识别学习对象</string>
+    <string>VoxWords uses speech recognition to turn your voice into text for translation.</string>
 </dict>
 </plist>
 

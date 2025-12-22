@@ -39,9 +39,36 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
     /// Threshold to consider "not silent" once speech has started (0...1 normalized level).
     var oneWordSilenceThreshold: Float = 0.04
     
+    /// TTS speech rate (0.0 to 1.0, where 0.5 is default/normal speed).
+    /// Reads from UserDefaults on each speak() call to respect Settings changes.
+    private var speechRate: Float {
+        let base = AVSpeechUtteranceDefaultSpeechRate
+
+        // New: 3-level setting (0 slow, 1 normal, 2 fast).
+        if let level = (UserDefaults.standard.object(forKey: "ttsSpeechRateLevel") as? NSNumber)?.intValue {
+            switch level {
+            case 0:
+                return max(AVSpeechUtteranceMinimumSpeechRate, base * 0.72)
+            case 2:
+                return min(AVSpeechUtteranceMaximumSpeechRate, base * 1.28)
+            default:
+                return base
+            }
+        }
+
+        // Back-compat: older slider stored normalized 0...1 under "ttsSpeechRate".
+        let n = (UserDefaults.standard.object(forKey: "ttsSpeechRate") as? NSNumber)
+        let t = min(max(n?.doubleValue ?? 0.5, 0.0), 1.0)
+        let slow = max(AVSpeechUtteranceMinimumSpeechRate, base * 0.72)
+        let fast = min(AVSpeechUtteranceMaximumSpeechRate, base * 1.28)
+        return slow + (fast - slow) * Float(t)
+    }
+    
     // MARK: - Private Properties
     private let logger = Logger(subsystem: "com.angyee.voxwords", category: "speech")
     private let audioQueue = DispatchQueue(label: "com.angyee.voxwords.audio", qos: .userInitiated)
+    /// Dedicated queue for slow AudioUnit warmups so we never block `audioQueue` (user interactions).
+    private let warmupQueue = DispatchQueue(label: "com.angyee.voxwords.audioWarmup", qos: .utility)
     
     private enum RecordingState {
         case idle
@@ -75,10 +102,17 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
     // AudioUnit output warmup scheduling (runs on audioQueue)
     private var ttsOutputWarmupScheduled: Bool = false
     private var ttsOutputWarmupWorkItem: DispatchWorkItem?
-
-    // Kept briefly so we can stop the warmup without capturing non-Sendable AV types in @Sendable closures.
-    private var outputWarmupEngine: AVAudioEngine?
-    private var outputWarmupPlayerNode: AVAudioPlayerNode?
+    
+    // Box AVFoundation objects to satisfy Swift 6 sendability in completion closures.
+    // This object is only ever used for stopping the warmup engine/node.
+    private final class WarmupHandles: @unchecked Sendable {
+        let engine: AVAudioEngine
+        let player: AVAudioPlayerNode
+        init(engine: AVAudioEngine, player: AVAudioPlayerNode) {
+            self.engine = engine
+            self.player = player
+        }
+    }
     
     // Language Detection
     private let languageRecognizer = NLLanguageRecognizer()
@@ -98,11 +132,33 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         // This can trigger first-launch AudioUnit/IPC warnings (IPCAUClient) at app startup.
         // We'll activate on-demand when starting recording or speaking.
         
-        // Request permissions eagerly to avoid first-press lag
-        Task { [weak self] in
-            guard let self else { return }
-            await self.requestPermissions()
+        // IMPORTANT:
+        // Do NOT request Mic/Speech permissions on app launch / onboarding.
+        // We request on-demand when the user taps the mic in Daily, so it feels expected.
+    }
+
+    @MainActor
+    private func ensurePermissionsForRecordingIfNeeded() async -> Bool {
+        let speech = SFSpeechRecognizer.authorizationStatus()
+        let mic = AVAudioSession.sharedInstance().recordPermission
+
+        // If either permission isn't decided yet, the first mic tap is the right moment to ask.
+        if speech == .notDetermined || mic == .undetermined {
+            await requestPermissions()
         }
+
+        let speechNow = SFSpeechRecognizer.authorizationStatus()
+        let micNow = AVAudioSession.sharedInstance().recordPermission
+
+        if speechNow != .authorized {
+            self.error = "Speech recognition not authorized"
+            return false
+        }
+        if micNow != .granted {
+            self.error = "Microphone access denied"
+            return false
+        }
+        return true
     }
     
     // MARK: - Configuration
@@ -290,6 +346,18 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         logger.notice("Simulator recording stub returned placeholder transcript")
         return
 #else
+        // Permission prompt should happen here (Daily mic tap), not earlier.
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            guard await self.ensurePermissionsForRecordingIfNeeded() else { return }
+            self.startRecordingInternal()
+        }
+#endif
+    }
+
+    /// Starts recording after permissions are granted.
+    /// Keep this split so we can delay system prompts until the user intent is clear.
+    private func startRecordingInternal() {
         // If we're speaking, stop immediately before grabbing the mic.
         DispatchQueue.main.async { [weak self] in
             self?.synthesizer.stopSpeaking(at: .immediate)
@@ -433,7 +501,6 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
                 self.state = .idle
             }
         }
-#endif
     }
     
     func stopRecording() {
@@ -501,7 +568,7 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
                 // AVSpeechUtterance is not thread-safe / not Sendable.
                 let u = AVSpeechUtterance(string: textCopy)
                 u.voice = AVSpeechSynthesisVoice(language: languageCopy)
-                u.rate = 0.5
+                u.rate = self.speechRate
                 u.pitchMultiplier = 1.0
                 u.volume = 1.0
                 u.preUtteranceDelay = 0
@@ -520,7 +587,7 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
                 // Rebuild utterance on main to avoid capturing non-Sendable AV types.
                 let u = AVSpeechUtterance(string: textCopy)
                 u.voice = AVSpeechSynthesisVoice(language: languageCopy)
-                u.rate = 0.5
+                u.rate = self.speechRate
                 u.pitchMultiplier = 1.0
                 u.volume = 1.0
                 u.preUtteranceDelay = 0
@@ -577,7 +644,10 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
                 return
             }
 
-            self.performAudioOutputWarmup()
+            // Run the expensive AudioUnit bring-up off the interaction queue.
+            self.warmupQueue.async { [weak self] in
+                self?.performAudioOutputWarmup()
+            }
         }
 
         ttsOutputWarmupWorkItem = item
@@ -589,12 +659,16 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         guard ttsPrewarmCompleted == false else { return }
 
         let t0 = DispatchTime.now().uptimeNanoseconds
-        setupPlaybackAudioSession(activate: true)
+        // Keep AudioSession bookkeeping on audioQueue (these vars are mutated there).
+        audioQueue.sync { [weak self] in
+            self?.setupPlaybackAudioSession(activate: true)
+        }
 
         // Create a dedicated AVAudioEngine for output warmup.
         let engine = AVAudioEngine()
         let player = AVAudioPlayerNode()
         engine.attach(player)
+        let handles = WarmupHandles(engine: engine, player: player)
 
         // Connect player to main mixer (forces output graph initialization).
         let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 2)!
@@ -611,11 +685,10 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         do {
             try engine.start()
             player.play()
-            ttsPrewarmCompleted = true
-
-            // Store these briefly so we can stop without capturing non-Sendable AV types.
-            outputWarmupEngine = engine
-            outputWarmupPlayerNode = player
+            // Mark completion on audioQueue (no AV types cross queues).
+            audioQueue.async { [weak self] in
+                self?.ttsPrewarmCompleted = true
+            }
 
             let t1 = DispatchTime.now().uptimeNanoseconds
             let startMs = Double(t1 - t0) / 1_000_000.0
@@ -626,17 +699,15 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
                 let totalMs = Double(t2 - t0) / 1_000_000.0
                 Logger(subsystem: "com.angyee.voxwords", category: "speech")
                     .info("AudioUnit OUTPUT warmup completed (\(totalMs, format: .fixed(precision: 1))ms)")
-            }
-
-            // Keep engine alive long enough to complete buffer playback + IPC handshake.
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.4) { [weak self] in
-                self?.audioQueue.async { [weak self] in
-                    guard let self else { return }
-                    self.outputWarmupPlayerNode?.stop()
-                    self.outputWarmupEngine?.stop()
-                    self.outputWarmupPlayerNode = nil
-                    self.outputWarmupEngine = nil
-                    self.logger.debug("AudioUnit output warmup engine stopped")
+                // IMPORTANT:
+                // This completion runs on AVAudioPlayerNode's internal completion queue.
+                // Calling `stop()` synchronously here can deadlock inside AVFAudio (dispatch_sync).
+                // Always hop to our warmup queue before stopping.
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.05) {
+                    handles.player.stop()
+                    handles.engine.stop()
+                    Logger(subsystem: "com.angyee.voxwords", category: "speech")
+                        .debug("AudioUnit output warmup engine stopped")
                 }
             }
         } catch {

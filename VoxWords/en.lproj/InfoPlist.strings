@@ -1,0 +1,3 @@
+"NSMicrophoneUsageDescription" = "VoxWords needs microphone access to record your voice and create word cards.";
+"NSSpeechRecognitionUsageDescription" = "VoxWords uses speech recognition to turn your voice into text for translation.";
+
