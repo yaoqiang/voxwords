@@ -8,31 +8,58 @@ struct RetroWordCard: View {
     var onDelete: (() -> Void)? = nil
 
     @State private var speakBump: Int = 0
+    @State private var isPressed: Bool = false
 
     var body: some View {
         Button(action: {
+            // 单击播放音频（恢复原有行为）
             HapticManager.shared.lightImpact()
             speakBump &+= 1
             onSpeak()
         }) {
             VStack(alignment: .leading, spacing: 10) {
-                HStack {
+                HStack(alignment: .top, spacing: 12) {
                     Text(card.word)
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
                         .foregroundStyle(.primary)
-                        .lineLimit(2)
-                    Spacer()
-                    Image(systemName: "speaker.wave.2.fill")
-                        .font(.system(size: 14, weight: .bold))
-                        .symbolRenderingMode(.hierarchical)
-                        .foregroundStyle(.secondary)
-                        .symbolEffect(.bounce, value: speakBump)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
+                    Spacer(minLength: 8)
+                    
+                    // 小喇叭按钮：独立播放音频
+                    Button(action: {
+                        HapticManager.shared.lightImpact()
+                        speakBump &+= 1
+                        onSpeak()
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            VoxTheme.Colors.warmPeach.opacity(0.15),
+                                            VoxTheme.Colors.softPink.opacity(0.1)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 48, height: 48)
+                            
+                            Image(systemName: "speaker.wave.2.fill")
+                                .font(.system(size: 18))
+                                .foregroundColor(VoxTheme.Colors.warmPeach)
+                                .symbolEffect(.bounce.up, value: speakBump)
+                        }
+                    }
+                    .buttonStyle(ScaleButtonStyle())
                 }
 
                 Text(card.translation)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .foregroundStyle(.secondary)
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
             }
             .padding(14)
             .frame(maxWidth: .infinity, minHeight: 108, alignment: .topLeading)
@@ -40,6 +67,11 @@ struct RetroWordCard: View {
             .glassCard(cornerRadius: 18)
         }
         .buttonStyle(.plain)
+        .scaleEffect(isPressed ? 0.98 : 1.0)
+        .animation(.spring(response: 0.2, dampingFraction: 0.7), value: isPressed)
+        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, pressing: { pressing in
+            isPressed = pressing
+        }, perform: {})
         .contextMenu {
             if let onDelete {
                 Button(role: .destructive) {
@@ -61,77 +93,82 @@ struct RetroPreviewCard: View {
     let onDismiss: () -> Void
     let onRetry: () -> Void
 
+    @State private var speakBump: Int = 0
+    @State private var isPressed: Bool = false
+
     var body: some View {
-        // Confirm UI: big centered content + 3 large circular actions.
+        // Compact preview UI: focused on content with minimal decoration
         ZStack {
             // Liquid glass overlay (consistent with the rest of the app).
             LiquidGlassBackground().ignoresSafeArea()
 
-            VStack(spacing: 18) {
+            VStack(spacing: 20) {
                 Spacer()
 
-                // Sticker / image placeholder with glow
-                ZStack {
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.98, green: 0.93, blue: 0.72).opacity(0.85),
-                                    Color.clear
-                                ],
-                                center: .center,
-                                startRadius: 20,
-                                endRadius: 170
-                            )
-                        )
-                        .frame(width: 280, height: 280)
-
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 26, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 26, style: .continuous)
-                                    .stroke(VoxTheme.Glass.stroke, lineWidth: VoxTheme.Glass.strokeWidth)
-                            )
-                            .shadow(color: VoxTheme.Glass.shadow, radius: 18, x: 0, y: 12)
-                        Image(systemName: isFailure ? "exclamationmark.triangle.fill" : "sparkles")
-                            .font(.system(size: 56, weight: .bold))
-                            .foregroundStyle(.primary.opacity(isFailure ? 0.70 : 0.55))
-                    }
-                    .frame(width: 140, height: 140)
+                // Compact status indicator (small icon instead of large decoration)
+                if isFailure {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: 32, weight: .bold))
+                        .foregroundStyle(VoxTheme.Colors.error.opacity(0.7))
+                        .padding(.bottom, 8)
                 }
 
-                // Word + translation (big)
-                VStack(spacing: 10) {
-                    HStack(spacing: 10) {
+                // Word + translation (prominent and centered)
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
                         Text(card.word)
-                            .font(.system(size: 34, weight: .heavy, design: .rounded))
+                            .font(.system(size: 36, weight: .heavy, design: .rounded))
                             .foregroundStyle(.primary)
                             .lineLimit(2)
                             .multilineTextAlignment(.center)
 
                         Button(action: {
                             HapticManager.shared.lightImpact()
+                            speakBump &+= 1
                             onSpeak()
                         }) {
-                            Image(systemName: "speaker.wave.2.fill")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(.secondary)
-                                .padding(10)
-                                .glassIconCircle(size: 44)
+                            ZStack {
+                                Circle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                VoxTheme.Colors.warmPeach.opacity(0.15),
+                                                VoxTheme.Colors.softPink.opacity(0.1)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .frame(width: 48, height: 48)
+                                    .scaleEffect(isPressed ? 0.92 : 1.0)
+                                    .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isPressed)
+                                
+                                Image(systemName: "speaker.wave.2.fill")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(VoxTheme.Colors.warmPeach)
+                                    .symbolEffect(.bounce.up, value: speakBump)
+                                    .scaleEffect(isPressed ? 0.95 : 1.0)
+                                    .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isPressed)
+                            }
                         }
+                        .buttonStyle(.plain)
                         .disabled(isFailure)
                         .opacity(isFailure ? 0.45 : 1)
+                        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, pressing: { pressing in
+                            isPressed = pressing
+                        }, perform: {})
                     }
 
                     Text(card.translation)
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .font(.system(size: 18, weight: .semibold, design: .rounded))
                         .foregroundStyle(.secondary)
                         .opacity(isFailure ? 1.0 : 0.95)
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                 }
-                .padding(.horizontal, 28)
+                .padding(.horizontal, 32)
+                .padding(.vertical, 20)
+                .glassCard(cornerRadius: 24)
 
                 Spacer()
 

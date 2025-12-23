@@ -9,6 +9,7 @@ struct VoxWordsApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("nativeLanguage") private var nativeLanguage = "zh-CN"
     @AppStorage("targetLanguage") private var targetLanguage = "en-US"
+    @AppStorage("appearanceMode") private var appearanceMode: Int = 0 // 0 = system, 1 = light, 2 = dark
 
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var speechManager = SpeechManager()
@@ -27,6 +28,7 @@ struct VoxWordsApp: App {
                 }
             }
             .environmentObject(purchase)
+            .preferredColorScheme(appearanceMode == 0 ? nil : (appearanceMode == 1 ? .light : .dark))
             .overlay {
                 // Keep TranslationSession alive across navigation changes.
                 if hasCompletedOnboarding {

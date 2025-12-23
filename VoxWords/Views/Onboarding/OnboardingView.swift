@@ -36,20 +36,7 @@ struct OnboardingView: View {
                         title: String(localized: "onboarding.native.title"),
                         subtitle: String(localized: "onboarding.native.subtitle"),
                         selection: $selectedNativeLanguage,
-                        options: [
-                            ("zh-CN", "中文", "🇨🇳"),
-                            ("en-US", "English", "🇺🇸"),
-                            ("ja-JP", "日本語", "🇯🇵"),
-                            ("ko-KR", "한국어", "🇰🇷"),
-                            ("fr-FR", "Français", "🇫🇷"),
-                            ("es-ES", "Español", "🇪🇸"),
-                            ("de-DE", "Deutsch", "🇩🇪"),
-                            ("it-IT", "Italiano", "🇮🇹"),
-                            ("pt-BR", "Português", "🇧🇷"),
-                            ("id-ID", "Bahasa Indonesia", "🇮🇩"),
-                            ("vi-VN", "Tiếng Việt", "🇻🇳"),
-                            ("th-TH", "ไทย", "🇹🇭")
-                        ]
+                        options: LanguageManager.supportedLanguages
                     )
                     .tag(1)
                     
@@ -57,20 +44,7 @@ struct OnboardingView: View {
                         title: String(localized: "onboarding.target.title"),
                         subtitle: String(localized: "onboarding.target.subtitle"),
                         selection: $selectedTargetLanguage,
-                        options: [
-                            ("zh-CN", "中文", "🇨🇳"),
-                            ("en-US", "English", "🇺🇸"),
-                            ("ja-JP", "日本語", "🇯🇵"),
-                            ("ko-KR", "한국어", "🇰🇷"),
-                            ("fr-FR", "Français", "🇫🇷"),
-                            ("es-ES", "Español", "🇪🇸"),
-                            ("de-DE", "Deutsch", "🇩🇪"),
-                            ("it-IT", "Italiano", "🇮🇹"),
-                            ("pt-BR", "Português", "🇧🇷"),
-                            ("id-ID", "Bahasa Indonesia", "🇮🇩"),
-                            ("vi-VN", "Tiếng Việt", "🇻🇳"),
-                            ("th-TH", "ไทย", "🇹🇭")
-                        ]
+                        options: LanguageManager.supportedLanguages
                     )
                     .tag(2)
                 }

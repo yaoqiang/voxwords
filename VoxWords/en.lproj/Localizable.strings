@@ -52,6 +52,10 @@
 "settings.speech.rate.slow" = "Slow";
 "settings.speech.rate.normal" = "Normal";
 "settings.speech.rate.fast" = "Fast";
+"settings.appearance.title" = "Appearance";
+"settings.appearance.system" = "System";
+"settings.appearance.light" = "Light";
+"settings.appearance.dark" = "Dark";
 "settings.sheet.save" = "Save";
 "settings.sheet.languages" = "Languages";
 "settings.sheet.native" = "Native";

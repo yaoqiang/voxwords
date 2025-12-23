@@ -19,7 +19,9 @@ struct SettingsView: View {
     @State private var showAbout: Bool = false
     @State private var showFAQ: Bool = false
     @State private var showSpeechRateSheet: Bool = false
+    @State private var showAppearanceSheet: Bool = false
     @State private var showPaywall: Bool = false
+    @AppStorage("appearanceMode") private var appearanceMode: Int = 0 // 0 = system, 1 = light, 2 = dark
 
     private var speechRateLabel: String {
         switch ttsSpeechRateLevel {
@@ -29,6 +31,17 @@ struct SettingsView: View {
             return String(localized: "settings.speech.rate.fast")
         default:
             return String(localized: "settings.speech.rate.normal")
+        }
+    }
+
+    private var appearanceModeLabel: String {
+        switch appearanceMode {
+        case 1:
+            return String(localized: "settings.appearance.light")
+        case 2:
+            return String(localized: "settings.appearance.dark")
+        default:
+            return String(localized: "settings.appearance.system")
         }
     }
 
@@ -93,6 +106,17 @@ struct SettingsView: View {
                     }
                 }
 
+                SettingsSection(title: String(localized: "settings.appearance.title")) {
+                    SettingsRow(
+                        icon: "paintbrush.fill",
+                        title: String(localized: "settings.appearance.title"),
+                        subtitle: appearanceModeLabel
+                    ) {
+                        HapticManager.shared.selectionChanged()
+                        showAppearanceSheet = true
+                    }
+                }
+
                 SettingsSection(title: String(localized: "settings.section.support")) {
                     SettingsRow(icon: "envelope", title: String(localized: "support.contact")) { openSupportLink(.contact) }
                     SettingsRow(icon: "a.circle", title: String(localized: "support.faq")) {
@@ -110,7 +134,7 @@ struct SettingsView: View {
                     }
                     SettingsRow(icon: "sparkles", title: String(localized: "about.suggest_feature")) {
                         HapticManager.shared.selectionChanged()
-                        requestReview()
+                        openAppStoreForFeedback()
                     }
                 }
 
@@ -145,6 +169,9 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showSpeechRateSheet) {
             SpeechRateSheet(level: $ttsSpeechRateLevel)
+        }
+        .sheet(isPresented: $showAppearanceSheet) {
+            AppearanceModeSheet(mode: $appearanceMode)
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView()
@@ -191,6 +218,15 @@ struct SettingsView: View {
     private func requestReview() {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             SKStoreReviewController.requestReview(in: scene)
+        }
+    }
+    
+    private func openAppStoreForFeedback() {
+        // VoxWords App Store ID: 6756831947
+        // 直接打开 App Store 并自动弹出评论页面
+        let appStoreID = "6756831947"
+        if let url = URL(string: "https://apps.apple.com/app/id\(appStoreID)?action=write-review") {
+            UIApplication.shared.open(url)
         }
     }
 }
@@ -335,21 +371,7 @@ private struct AboutVoxWordsView: View {
 }
 
 private func languageName(_ code: String) -> String {
-    switch code {
-    case "zh-CN": return "中文"
-    case "en-US": return "English"
-    case "ja-JP": return "日本語"
-    case "ko-KR": return "한국어"
-    case "fr-FR": return "Français"
-    case "es-ES": return "Español"
-    case "de-DE": return "Deutsch"
-    case "it-IT": return "Italiano"
-    case "pt-BR": return "Português"
-    case "id-ID": return "Bahasa Indonesia"
-    case "vi-VN": return "Tiếng Việt"
-    case "th-TH": return "ไทย"
-    default: return code
-    }
+    return LanguageManager.displayName(for: code)
 }
 
 private struct LanguageSettingsSheet: View {
@@ -360,35 +382,8 @@ private struct LanguageSettingsSheet: View {
     @State private var selectedNative: String?
     @State private var selectedTarget: String?
 
-    private let nativeOptions: [(String, String, String)] = [
-        ("zh-CN", "中文", "🇨🇳"),
-        ("en-US", "English", "🇺🇸"),
-        ("ja-JP", "日本語", "🇯🇵"),
-        ("ko-KR", "한국어", "🇰🇷"),
-        ("fr-FR", "Français", "🇫🇷"),
-        ("es-ES", "Español", "🇪🇸"),
-        ("de-DE", "Deutsch", "🇩🇪"),
-        ("it-IT", "Italiano", "🇮🇹"),
-        ("pt-BR", "Português", "🇧🇷"),
-        ("id-ID", "Bahasa Indonesia", "🇮🇩"),
-        ("vi-VN", "Tiếng Việt", "🇻🇳"),
-        ("th-TH", "ไทย", "🇹🇭")
-    ]
-
-    private let targetOptions: [(String, String, String)] = [
-        ("zh-CN", "中文", "🇨🇳"),
-        ("en-US", "English", "🇺🇸"),
-        ("ja-JP", "日本語", "🇯🇵"),
-        ("ko-KR", "한국어", "🇰🇷"),
-        ("fr-FR", "Français", "🇫🇷"),
-        ("es-ES", "Español", "🇪🇸"),
-        ("de-DE", "Deutsch", "🇩🇪"),
-        ("it-IT", "Italiano", "🇮🇹"),
-        ("pt-BR", "Português", "🇧🇷"),
-        ("id-ID", "Bahasa Indonesia", "🇮🇩"),
-        ("vi-VN", "Tiếng Việt", "🇻🇳"),
-        ("th-TH", "ไทย", "🇹🇭")
-    ]
+    private let nativeOptions: [(String, String, String)] = LanguageManager.supportedLanguages
+    private let targetOptions: [(String, String, String)] = LanguageManager.supportedLanguages
 
     var body: some View {
         VStack(spacing: 0) {
@@ -653,6 +648,103 @@ private struct SpeechRateSheet: View {
 }
 
 private struct SpeedOption: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Text(title)
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundStyle(.primary)
+                Spacer()
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
+            .glassCard(cornerRadius: 22)
+            .overlay(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .stroke(Color.white.opacity(isSelected ? 0.22 : 0.0), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct AppearanceModeSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var mode: Int // 0 = system, 1 = light, 2 = dark
+
+    var body: some View {
+        ZStack {
+            LiquidGlassBackground().ignoresSafeArea()
+
+            VStack(spacing: 16) {
+                HStack {
+                    Button {
+                        HapticManager.shared.selectionChanged()
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(.primary.opacity(0.75))
+                            .padding(10)
+                    }
+                    .buttonStyle(.plain)
+                    .glassIconCircle(size: 40)
+
+                    Spacer()
+                }
+                .padding(.top, 6)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(String(localized: "settings.appearance.title"))
+                        .font(.system(size: 34, weight: .regular, design: .serif))
+                        .foregroundStyle(.primary.opacity(0.92))
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                VStack(spacing: 12) {
+                    AppearanceOption(
+                        title: String(localized: "settings.appearance.system"),
+                        isSelected: mode == 0
+                    ) {
+                        HapticManager.shared.lightImpact()
+                        mode = 0
+                    }
+
+                    AppearanceOption(
+                        title: String(localized: "settings.appearance.light"),
+                        isSelected: mode == 1
+                    ) {
+                        HapticManager.shared.lightImpact()
+                        mode = 1
+                    }
+
+                    AppearanceOption(
+                        title: String(localized: "settings.appearance.dark"),
+                        isSelected: mode == 2
+                    ) {
+                        HapticManager.shared.lightImpact()
+                        mode = 2
+                    }
+                }
+
+                Spacer()
+            }
+            .padding(.horizontal, VoxTheme.Dimensions.largePadding)
+            .padding(.bottom, 18)
+        }
+    }
+}
+
+private struct AppearanceOption: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void

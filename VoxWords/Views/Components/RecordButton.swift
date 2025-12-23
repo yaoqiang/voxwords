@@ -16,6 +16,7 @@ struct RecordButton: View {
     @State private var breathingScale: CGFloat = 1.0
     @State private var pulseScale: CGFloat = 1.0
     @State private var pulseOpacity: Double = 0.6
+    @State private var liquidRotation: Double = 0.0
     
     // MARK: - Constants
     private let buttonSize: CGFloat = 80
@@ -50,46 +51,76 @@ struct RecordButton: View {
                 }
             }
             
-            // Main button
-            Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: buttonSize, height: buttonSize)
-                .overlay(
-                    Circle()
-                        .stroke(stroke, lineWidth: VoxTheme.Glass.strokeWidth)
-                )
-                .shadow(
-                    color: VoxTheme.Glass.shadow,
-                    radius: isPressed ? 10 : 16,
-                    y: isPressed ? 6 : 10
-                )
-                .scaleEffect(buttonScale)
-                .animation(isPressed ? VoxTheme.Animations.buttonPress : VoxTheme.Animations.buttonRelease, value: isPressed)
-                .animation(isRecording ? nil : VoxTheme.Animations.breathing, value: breathingScale)
-            
-            // Icon (with inset glass to make it feel "filled")
+            // Main button - single outer circle with glass edge
             ZStack {
+                // Liquid flow effect (animated gradient when recording)
+                if isRecording {
+                    Circle()
+                        .fill(
+                            AngularGradient(
+                                gradient: Gradient(colors: [
+                                    VoxTheme.Colors.warmPeach.opacity(0.15),
+                                    VoxTheme.Colors.softPink.opacity(0.12),
+                                    VoxTheme.Colors.warmPeach.opacity(0.15),
+                                    VoxTheme.Colors.softPink.opacity(0.12)
+                                ]),
+                                center: .center,
+                                angle: .degrees(liquidRotation)
+                            )
+                        )
+                        .frame(width: buttonSize - 4, height: buttonSize - 4)
+                        .blur(radius: 8)
+                        .opacity(0.6)
+                        .animation(.linear(duration: 3.0).repeatForever(autoreverses: false), value: liquidRotation)
+                }
+                
+                // Glass circle with edge
                 Circle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 46, height: 46)
-                    .overlay(Circle().stroke(stroke.opacity(0.85), lineWidth: 1))
+                    .frame(width: buttonSize, height: buttonSize)
                     .overlay(
+                        // Glass edge with highlight
                         Circle()
-                            .fill(
+                            .stroke(
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(isDark ? 0.14 : 0.55),
-                                        Color.clear
+                                        stroke.opacity(0.8),
+                                        stroke,
+                                        stroke.opacity(0.6)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
-                                )
+                                ),
+                                lineWidth: VoxTheme.Glass.strokeWidth + 0.5
                             )
-                            .blendMode(.screen)
-                            .opacity(isDark ? 0.25 : 0.45)
                     )
-                    .opacity(isRecording ? 0.95 : 0.90)
-
+                    .overlay(
+                        // Top highlight for glass edge
+                        Circle()
+                            .trim(from: 0, to: 0.25)
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(isDark ? 0.35 : 0.75),
+                                        Color.clear
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .topTrailing
+                                ),
+                                style: StrokeStyle(lineWidth: 2, lineCap: .round)
+                            )
+                            .rotationEffect(.degrees(-45))
+                    )
+                    .shadow(
+                        color: isDark ? Color.black.opacity(0.42) : VoxTheme.Glass.shadow,
+                        radius: isPressed ? 10 : 16,
+                        y: isPressed ? 6 : 10
+                    )
+                    .scaleEffect(buttonScale)
+                    .animation(isPressed ? VoxTheme.Animations.buttonPress : VoxTheme.Animations.buttonRelease, value: isPressed)
+                    .animation(isRecording ? nil : VoxTheme.Animations.breathing, value: breathingScale)
+                
+                // Icon in center
                 Image(systemName: isRecording ? "waveform" : "mic.fill")
                     .font(.system(size: iconSize, weight: .semibold))
                     .symbolRenderingMode(.hierarchical)
@@ -117,8 +148,10 @@ struct RecordButton: View {
         .onChange(of: isRecording) { _, newValue in
             if newValue {
                 startPulseAnimation()
+                startLiquidAnimation()
             } else {
                 stopPulseAnimation()
+                stopLiquidAnimation()
             }
         }
     }
@@ -168,6 +201,18 @@ struct RecordButton: View {
         withAnimation(.easeOut(duration: 0.3)) {
             pulseScale = 1.0
             pulseOpacity = 0.6
+        }
+    }
+    
+    private func startLiquidAnimation() {
+        withAnimation(.linear(duration: 3.0).repeatForever(autoreverses: false)) {
+            liquidRotation = 360
+        }
+    }
+    
+    private func stopLiquidAnimation() {
+        withAnimation(.easeOut(duration: 0.3)) {
+            liquidRotation = 0
         }
     }
 }

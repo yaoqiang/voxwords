@@ -207,20 +207,29 @@ struct PaywallView: View {
                         .fill(
                             LinearGradient(
                                 colors: colorScheme == .dark ? [
-                                    VoxTheme.Colors.softPink.opacity(0.75),
-                                    VoxTheme.Colors.softPink.opacity(0.60)
-                                ] : [
                                     VoxTheme.Colors.softPink.opacity(0.85),
-                                    VoxTheme.Colors.softPink.opacity(0.70)
+                                    VoxTheme.Colors.warmPeach.opacity(0.75)
+                                ] : [
+                                    VoxTheme.Colors.softPink,
+                                    VoxTheme.Colors.warmPeach
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
+                        .shadow(
+                            color: colorScheme == .dark 
+                                ? Color.black.opacity(0.3)
+                                : VoxTheme.Colors.softPink.opacity(0.4),
+                            radius: colorScheme == .dark ? 12 : 16,
+                            x: 0,
+                            y: colorScheme == .dark ? 6 : 8
+                        )
                 )
             }
             .buttonStyle(.plain)
             .disabled(purchase.isLoadingProducts)
+            .opacity(purchase.isLoadingProducts ? 0.6 : 1.0)
 
             Button {
                 HapticManager.shared.selectionChanged()

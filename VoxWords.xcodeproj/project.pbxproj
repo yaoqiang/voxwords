@@ -24,6 +24,7 @@
 		80C250EDC6B186C5E1B88870 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB04A5088D2EFE1B1CE1C4A /* CardView.swift */; };
 		8CA3C9A4A448CECAA00237D4 /* VoxWordsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F9004D4985123142443C0D /* VoxWordsApp.swift */; };
 		93069D4E7C1D9D7A92583498 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */; };
+		F1A2B3C4D5E6F7A8B9C0D1E2 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* LanguageManager.swift */; };
 		A592F58AD345F4C0DBD8CD2A /* TranslationHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DCA803EC2879C247322478 /* TranslationHost.swift */; };
 		AA11BB22CC33DD44EE55FF66 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA11BB22CC33DD44EE55FF67 /* Localizable.strings */; };
 		CC11BB22CC33DD44EE55AA01 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC11BB22CC33DD44EE55AA00 /* InfoPlist.strings */; };
@@ -71,6 +72,7 @@
 		D032F81C017EC62696A4262E /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		D9F9004D4985123142443C0D /* VoxWordsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxWordsApp.swift; sourceTree = "<group>"; };
 		E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		F2091FA76023F4A83C2B80A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4B46C02AFC55552506E74EA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD508AE62F19053DF3274372 /* TranslationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationManager.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				E25E7B8F3EA3C5CB027E518A /* UserPreferences.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* LanguageManager.swift */,
 				8EC05C02429DACC1E33004DD /* VocabularyCard.swift */,
 				5082F70DC9176932FE07220C /* WordEntry.swift */,
 			);
@@ -321,6 +324,7 @@
 				0EA75901F5F2E99B0C08F385 /* TranslationManager.swift in Sources */,
 				B1C2D3E4F5A6B7C8D9E0F123 /* TranslationPipeline.swift in Sources */,
 				93069D4E7C1D9D7A92583498 /* UserPreferences.swift in Sources */,
+				F1A2B3C4D5E6F7A8B9C0D1E2 /* LanguageManager.swift in Sources */,
 				2ED8E8BD13F5A9B7DE778C26 /* VisionManager.swift in Sources */,
 				34901B66E09BA6145ED9AD5F /* VisualizerView.swift in Sources */,
 				E0F2F6ABBB49050EE29550FB /* VocabularyCard.swift in Sources */,
