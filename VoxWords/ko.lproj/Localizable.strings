@@ -15,6 +15,13 @@
 /* Common */
 "common.words_count" = "%d개 단어";
 "common.delete" = "삭제";
+"common.close" = "닫기";
+"common.cancel" = "취소";
+
+/* 권한 */
+"permissions.mic.title" = "마이크 권한이 필요해요";
+"permissions.mic.message" = "녹음과 카드 생성을 위해 설정에서 마이크 및 음성 인식을 허용해 주세요.";
+"permissions.open_settings" = "설정 열기";
 
 /* Daily */
 "daily.empty.title" = "아직 단어가 없어요";
@@ -44,6 +51,9 @@
 "settings.upgrade.title" = "업그레이드";
 "settings.upgrade.subtitle" = "무제한 카드 잠금 해제";
 "settings.upgrade.active" = "활성";
+"settings.plus.title" = "VoxWords+";
+"settings.plus.manage" = "구독 관리";
+"settings.plus.restore" = "구매 복원";
 "settings.learning.change_language" = "학습 언어 변경";
 "settings.learning.system_language" = "앱 언어";
 "settings.learning.system_language.subtitle" = "시스템 따라가기";
@@ -86,6 +96,8 @@
 "paywall.disclaimer" = "구독은 자동으로 갱신되며, 현재 기간 종료 24시간 전까지 취소하지 않으면 갱신됩니다.";
 "paywall.privacy" = "개인정보 처리방침";
 "paywall.terms" = "이용약관";
+"paywall.eula" = "EULA";
+"paywall.success" = "VoxWords+ 활성화됨";
 
 /* In-app FAQ */
 "faq.title" = "자주 묻는 질문";

@@ -20,6 +20,7 @@ struct ContentView: View {
     @State private var showSettings: Bool = false
     @State private var enableZoomTransition: Bool = false
     @State private var showPaywall: Bool = false
+    @State private var showMicPermissionGuide: Bool = false
 
     // Paywall gating (simple + mainstream): allow some value, then gate "save".
     @AppStorage("totalConfirmedCards") private var totalConfirmedCards: Int = 0
@@ -60,6 +61,17 @@ struct ContentView: View {
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
+            .alert(String(localized: "permissions.mic.title"), isPresented: $showMicPermissionGuide) {
+                Button(String(localized: "permissions.open_settings")) {
+                    HapticManager.shared.selectionChanged()
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(String(localized: "common.cancel"), role: .cancel) {}
+            } message: {
+                Text(String(localized: "permissions.mic.message"))
+            }
             .navigationDestination(for: Route.self) { route in
                 switch route {
                 case .day(let day):
@@ -74,14 +86,7 @@ struct ContentView: View {
                         isRecording: $isRecording,
                         currentTranscript: $currentTranscript,
                         audioLevel: { speechManager.audioLevel },
-                        onStartRecording: {
-                            store.dismissPreview()
-                            currentTranscript = ""
-                            speechManager.startRecording()
-                        },
-                        onStopRecording: {
-                            Task { speechManager.stopRecording() }
-                        },
+                        speechManager: speechManager,
                         onSpeak: { word, language in
                             speechManager.speak(word, language: language)
                         },
@@ -180,8 +185,7 @@ struct ContentView: View {
         @Binding var currentTranscript: String
 
         let audioLevel: () -> Float
-        let onStartRecording: () -> Void
-        let onStopRecording: () -> Void
+        let speechManager: SpeechManager
         let onSpeak: (String, String) -> Void
         let onDeleteEntry: (UUID) -> Void
         let onConfirm: (VocabularyCard) -> Void
@@ -190,6 +194,7 @@ struct ContentView: View {
         let onBack: () -> Void
 
         @State private var currentDay: Date
+        @State private var showMicPermissionGuide: Bool = false
         // Note: we keep the interaction simple & stable: horizontal paging between days.
 
         private var cal: Calendar { Calendar.current }
@@ -202,8 +207,7 @@ struct ContentView: View {
             isRecording: Binding<Bool>,
             currentTranscript: Binding<String>,
             audioLevel: @escaping () -> Float,
-            onStartRecording: @escaping () -> Void,
-            onStopRecording: @escaping () -> Void,
+            speechManager: SpeechManager,
             onSpeak: @escaping (String, String) -> Void,
             onDeleteEntry: @escaping (UUID) -> Void,
             onConfirm: @escaping (VocabularyCard) -> Void,
@@ -218,8 +222,7 @@ struct ContentView: View {
             self._isRecording = isRecording
             self._currentTranscript = currentTranscript
             self.audioLevel = audioLevel
-            self.onStartRecording = onStartRecording
-            self.onStopRecording = onStopRecording
+            self.speechManager = speechManager
             self.onSpeak = onSpeak
             self.onDeleteEntry = onDeleteEntry
             self.onConfirm = onConfirm
@@ -415,13 +418,48 @@ struct ContentView: View {
                     RecordButton(
                         isRecording: $isRecording,
                         audioLevel: audioLevel(),
-                        onRecordingStart: onStartRecording,
-                        onRecordingEnd: onStopRecording
+                        isEnabled: speechManager.hasRecordingPermissions,
+                        onDisabledTap: {
+                            showMicPermissionGuide = true
+                        },
+                        onRecordingStart: {
+                            onDismissPreview()
+                            currentTranscript = ""
+                            
+                            // Check permissions before starting recording
+                            guard speechManager.hasRecordingPermissions else {
+                                showMicPermissionGuide = true
+                                return
+                            }
+                            
+                            // Start recording and handle permission request if needed
+                            Task { @MainActor in
+                                let result = await speechManager.ensurePermissionsAndStartRecording()
+                                if result == false {
+                                    // Permission was denied, show guide
+                                    showMicPermissionGuide = true
+                                }
+                            }
+                        },
+                        onRecordingEnd: {
+                            Task { speechManager.stopRecording() }
+                        }
                     )
                     .padding(.top, 10)
                     .frame(maxWidth: .infinity)
                     .safeAreaPadding(.bottom, 18)
                 }
+            }
+            .alert(String(localized: "permissions.mic.title"), isPresented: $showMicPermissionGuide) {
+                Button(String(localized: "permissions.open_settings")) {
+                    HapticManager.shared.selectionChanged()
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(String(localized: "common.cancel"), role: .cancel) {}
+            } message: {
+                Text(String(localized: "permissions.mic.message"))
             }
         }
     }

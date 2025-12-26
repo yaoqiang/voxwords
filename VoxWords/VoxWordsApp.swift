@@ -10,6 +10,7 @@ struct VoxWordsApp: App {
     @AppStorage("nativeLanguage") private var nativeLanguage = "zh-CN"
     @AppStorage("targetLanguage") private var targetLanguage = "en-US"
     @AppStorage("appearanceMode") private var appearanceMode: Int = 0 // 0 = system, 1 = light, 2 = dark
+    @AppStorage("didRequestAudioPermissions") private var didRequestAudioPermissions: Bool = false
 
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var speechManager = SpeechManager()
@@ -45,8 +46,18 @@ struct VoxWordsApp: App {
                 scheduleWarmupsIfNeeded()
             }
             .onChange(of: hasCompletedOnboarding) { _, newValue in
-                // If the user completes onboarding, schedule warmups once we become active.
+                // If the user completes onboarding, request audio permissions (once) and schedule warmups.
                 guard newValue == true else { return }
+
+                if didRequestAudioPermissions == false {
+                    didRequestAudioPermissions = true
+                    Task { @MainActor in
+                        // Trigger the system permission prompts right after onboarding,
+                        // so the first real mic press won't be disrupted.
+                        _ = await speechManager.requestPermissionsAndPrimeIfNeeded()
+                    }
+                }
+
                 if scenePhase == .active {
                     scheduleWarmupsIfNeeded()
                 }

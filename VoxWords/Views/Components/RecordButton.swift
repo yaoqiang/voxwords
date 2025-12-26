@@ -8,6 +8,8 @@ struct RecordButton: View {
     // MARK: - Bindings & Callbacks
     @Binding var isRecording: Bool
     let audioLevel: Float
+    let isEnabled: Bool
+    let onDisabledTap: (() -> Void)?
     let onRecordingStart: () -> Void
     let onRecordingEnd: () -> Void
     
@@ -26,11 +28,15 @@ struct RecordButton: View {
     init(
         isRecording: Binding<Bool>,
         audioLevel: Float = 0.0,
+        isEnabled: Bool = true,
+        onDisabledTap: (() -> Void)? = nil,
         onRecordingStart: @escaping () -> Void,
         onRecordingEnd: @escaping () -> Void
     ) {
         self._isRecording = isRecording
         self.audioLevel = audioLevel
+        self.isEnabled = isEnabled
+        self.onDisabledTap = onDisabledTap
         self.onRecordingStart = onRecordingStart
         self.onRecordingEnd = onRecordingEnd
     }
@@ -124,24 +130,39 @@ struct RecordButton: View {
                 Image(systemName: isRecording ? "waveform" : "mic.fill")
                     .font(.system(size: iconSize, weight: .semibold))
                     .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(.primary.opacity(isDark ? 0.92 : 0.86))
+                    .foregroundStyle((isEnabled ? Color.primary : Color.secondary).opacity(isDark ? 0.92 : 0.86))
                     .symbolEffect(.variableColor.iterative, options: .repeating, isActive: isRecording)
                     .shadow(color: Color.white.opacity(isDark ? 0.06 : 0.22), radius: 1, x: 0, y: 1)
             }
         }
+        .opacity(isEnabled ? 1.0 : 0.55)
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in
+                    guard isEnabled else {
+                        // If disabled, trigger guide on tap
+                        if !isPressed {
+                            isPressed = true
+                            HapticManager.shared.selectionChanged()
+                            onDisabledTap?()
+                        }
+                        return
+                    }
                     if !isPressed {
                         isPressed = true
                         startRecording()
                     }
                 }
                 .onEnded { _ in
-                    isPressed = false
-                    endRecording()
+                    if isEnabled {
+                        isPressed = false
+                        endRecording()
+                    } else {
+                        isPressed = false
+                    }
                 }
         )
+        .contentShape(Circle())
         .onAppear {
             startBreathingAnimation()
         }
@@ -150,8 +171,18 @@ struct RecordButton: View {
                 startPulseAnimation()
                 startLiquidAnimation()
             } else {
+                // Important: recording may end externally (speech recognizer final/error, audio interruption)
+                // without our gesture receiving `.onEnded`. If we don't reset `isPressed`,
+                // the next press won't trigger `startRecording()`.
+                isPressed = false
                 stopPulseAnimation()
                 stopLiquidAnimation()
+            }
+        }
+        .onChange(of: isEnabled) { _, newValue in
+            if newValue == false {
+                // Make sure we never keep a "pressed" visual state when disabled.
+                isPressed = false
             }
         }
     }
@@ -225,6 +256,8 @@ struct RecordButton: View {
         
         RecordButton(
             isRecording: .constant(false),
+            isEnabled: true,
+            onDisabledTap: nil,
             onRecordingStart: { print("Recording started") },
             onRecordingEnd: { print("Recording ended") }
         )

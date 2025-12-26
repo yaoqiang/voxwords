@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 import StoreKit
+@preconcurrency import StoreKit
 
 /// VoxWords Settings sheet.
 /// - Keeps it minimal for now (local-only app).
@@ -21,6 +22,7 @@ struct SettingsView: View {
     @State private var showSpeechRateSheet: Bool = false
     @State private var showAppearanceSheet: Bool = false
     @State private var showPaywall: Bool = false
+    @State private var showPremiumSheet: Bool = false
     @AppStorage("appearanceMode") private var appearanceMode: Int = 0 // 0 = system, 1 = light, 2 = dark
 
     private var speechRateLabel: String {
@@ -72,11 +74,15 @@ struct SettingsView: View {
                 SettingsSection(title: String(localized: "settings.section.learning")) {
                     SettingsRow(
                         icon: "crown.fill",
-                        title: String(localized: "settings.upgrade.title"),
+                        title: purchase.isPremium ? String(localized: "settings.plus.title") : String(localized: "settings.upgrade.title"),
                         subtitle: purchase.isPremium ? String(localized: "settings.upgrade.active") : String(localized: "settings.upgrade.subtitle")
                     ) {
                         HapticManager.shared.selectionChanged()
-                        showPaywall = true
+                        if purchase.isPremium {
+                            showPremiumSheet = true
+                        } else {
+                            showPaywall = true
+                        }
                     }
 
                     SettingsRow(
@@ -176,6 +182,14 @@ struct SettingsView: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView()
         }
+        .sheet(isPresented: $showPremiumSheet) {
+            PremiumStatusSheet(
+                onManage: { openManageSubscriptions() },
+                onRestore: {
+                    Task { await purchase.restorePurchases() }
+                }
+            )
+        }
         .alert(String(localized: "support.links_missing.title"), isPresented: $showSupportLinksAlert) {
             Button(String(localized: "support.links_missing.ok"), role: .cancel) {}
         } message: {
@@ -185,6 +199,13 @@ struct SettingsView: View {
 
     private func openSystemSettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
+    }
+
+    private func openManageSubscriptions() {
+        // Apple-recommended entry point for users to manage App Store subscriptions.
+        // Using HTTPS is accepted and will open the App Store app.
+        guard let url = URL(string: "https://apps.apple.com/account/subscriptions") else { return }
         UIApplication.shared.open(url)
     }
 
@@ -215,11 +236,6 @@ struct SettingsView: View {
         UIApplication.shared.open(url)
     }
 
-    private func requestReview() {
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
-        }
-    }
     
     private func openAppStoreForFeedback() {
         // VoxWords App Store ID: 6756831947

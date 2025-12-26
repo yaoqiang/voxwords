@@ -15,6 +15,13 @@
 /* Common */
 "common.words_count" = "%d 个单词";
 "common.delete" = "删除";
+"common.close" = "关闭";
+"common.cancel" = "取消";
+
+/* 权限 */
+"permissions.mic.title" = "需要麦克风权限";
+"permissions.mic.message" = "要录音并生成卡片，请在系统设置中开启“麦克风”和“语音识别”权限。";
+"permissions.open_settings" = "去设置开启";
 
 /* Daily */
 "daily.empty.title" = "今天还没有单词";
@@ -44,6 +51,9 @@
 "settings.upgrade.title" = "升级";
 "settings.upgrade.subtitle" = "解锁无限卡片";
 "settings.upgrade.active" = "已开通";
+"settings.plus.title" = "VoxWords+";
+"settings.plus.manage" = "管理订阅";
+"settings.plus.restore" = "恢复购买";
 "settings.learning.change_language" = "修改学习语言";
 "settings.learning.system_language" = "应用语言";
 "settings.learning.system_language.subtitle" = "跟随系统";
@@ -90,6 +100,8 @@
 "paywall.disclaimer" = "订阅将自动续费，除非在当前周期结束前至少 24 小时取消。";
 "paywall.privacy" = "隐私政策";
 "paywall.terms" = "服务条款";
+"paywall.eula" = "EULA（苹果标准）";
+"paywall.success" = "已开通 VoxWords+";
 
 /* In-app FAQ */
 "faq.title" = "常见问题";

@@ -84,6 +84,7 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
     private var didSetPreferredIO: Bool = false
     private var isAudioSessionActive: Bool = false
     private var didReceiveNonEmptyAudioBuffer: Bool = false
+    private var lastRecordingStartNs: UInt64 = 0
 
     // Timing (nanoseconds) for diagnosing first-interaction stalls.
     private var lastRecordPressNs: UInt64?
@@ -137,28 +138,63 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         // We request on-demand when the user taps the mic in Daily, so it feels expected.
     }
 
-    @MainActor
-    private func ensurePermissionsForRecordingIfNeeded() async -> Bool {
+    var hasRecordingPermissions: Bool {
         let speech = SFSpeechRecognizer.authorizationStatus()
-        let mic = AVAudioSession.sharedInstance().recordPermission
+        let mic = AVAudioApplication.shared.recordPermission
+        return speech == .authorized && mic == .granted
+    }
 
+    /// Ensures Mic + Speech permissions and starts recording if granted.
+    /// Returns true if recording started, false if permissions were denied.
+    @MainActor
+    func ensurePermissionsAndStartRecording() async -> Bool {
+        let result = await ensurePermissionsForRecordingIfNeeded()
+        guard result.granted else {
+            return false
+        }
+        
+        // After system permission alerts, the audio stack can be briefly unstable.
+        // Pre-warm the recording audio session and give it a short settling window
+        // to avoid a "flash stop" on some devices (notably iPad).
+        if result.didPrompt {
+            self.audioQueue.async { [weak self] in
+                guard let self else { return }
+                self.setupRecordingAudioSession(activate: true)
+                self.rebuildEngineIfNeeded()
+                self.prepareEngineIfNeeded()
+            }
+            try? await Task.sleep(nanoseconds: 250_000_000)
+        }
+        
+        startRecordingInternal()
+        return true
+    }
+    
+    /// Ensures Mic + Speech permissions. Returns a flag indicating whether we had to show permission prompts.
+    @MainActor
+    private func ensurePermissionsForRecordingIfNeeded() async -> (granted: Bool, didPrompt: Bool) {
+        let speech = SFSpeechRecognizer.authorizationStatus()
+        let mic = AVAudioApplication.shared.recordPermission
+
+        var didPrompt = false
         // If either permission isn't decided yet, the first mic tap is the right moment to ask.
         if speech == .notDetermined || mic == .undetermined {
+            didPrompt = true
             await requestPermissions()
         }
 
         let speechNow = SFSpeechRecognizer.authorizationStatus()
-        let micNow = AVAudioSession.sharedInstance().recordPermission
+        let micNow = AVAudioApplication.shared.recordPermission
 
         if speechNow != .authorized {
             self.error = "Speech recognition not authorized"
-            return false
+            return (false, didPrompt)
         }
         if micNow != .granted {
             self.error = "Microphone access denied"
-            return false
+            return (false, didPrompt)
         }
-        return true
+        return (true, didPrompt)
     }
     
     // MARK: - Configuration
@@ -281,6 +317,27 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         }
     }
     
+    /// Public entry point used right after onboarding.
+    /// Requests permissions only if needed, and primes the audio input path when granted.
+    @MainActor
+    func requestPermissionsAndPrimeIfNeeded() async -> Bool {
+        let speech = SFSpeechRecognizer.authorizationStatus()
+        let mic = AVAudioApplication.shared.recordPermission
+
+        if speech == .notDetermined || mic == .undetermined {
+            await requestPermissions()
+        }
+
+        let speechNow = SFSpeechRecognizer.authorizationStatus()
+        let micNow = AVAudioApplication.shared.recordPermission
+        let ok = (speechNow == .authorized) && (micNow == .granted)
+        if ok {
+            // Prime after the user has granted permissions so the first recording is stable.
+            primeAudioSessionForInteraction()
+        }
+        return ok
+    }
+
     @MainActor
     private func requestPermissions() async {
         // Request speech authorization using nonisolated helper to avoid MainActor conflicts
@@ -326,15 +383,7 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
     }
     
     private static func requestMicrophonePermission() async -> Bool {
-        if #available(iOS 17.0, *) {
-            return await AVAudioApplication.requestRecordPermission()
-        } else {
-            return await withCheckedContinuation { continuation in
-                AVAudioSession.sharedInstance().requestRecordPermission { allowed in
-                    continuation.resume(returning: allowed)
-                }
-            }
-        }
+        return await AVAudioApplication.requestRecordPermission()
     }
     
     func startRecording() {
@@ -347,10 +396,11 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         return
 #else
         // Permission prompt should happen here (Daily mic tap), not earlier.
+        // This method is kept for backward compatibility, but new code should use
+        // ensurePermissionsAndStartRecording() which returns permission status.
         Task { @MainActor [weak self] in
             guard let self else { return }
-            guard await self.ensurePermissionsForRecordingIfNeeded() else { return }
-            self.startRecordingInternal()
+            _ = await self.ensurePermissionsAndStartRecording()
         }
 #endif
     }
@@ -377,7 +427,9 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
             self.ttsOutputWarmupWorkItem = nil
             self.ttsOutputWarmupScheduled = false
 
-            self.lastRecordPressNs = DispatchTime.now().uptimeNanoseconds
+            let startNs = DispatchTime.now().uptimeNanoseconds
+            self.lastRecordPressNs = startNs
+            self.lastRecordingStartNs = startNs
             // If user taps quickly, restart cleanly instead of ignoring (prevents tap/task buildup).
             if self.state != .idle {
                 self.logger.debug("Restart recording requested; current state: \(String(describing: self.state), privacy: .public)")
@@ -454,6 +506,16 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
 
                         // If we never got any real audio buffers, surface a clearer hint.
                         if isNoSpeech, self.didReceiveNonEmptyAudioBuffer == false {
+                            // Immediately after permissions dialogs or audio session switches, the first recognition
+                            // session can report "No speech detected" before we receive any real audio buffers.
+                            // Give a short grace window to avoid a confusing flash-stop.
+                            let nowNs = DispatchTime.now().uptimeNanoseconds
+                            let elapsedMs = Double(nowNs &- self.lastRecordingStartNs) / 1_000_000.0
+                            if elapsedMs < 650 {
+                                self.logger.debug("Ignoring early no-speech (<650ms) while waiting for audio buffers")
+                                return
+                            }
+
                             self.error = "No speech detected"
                             self.logger.error("Recognition error (no audio buffers): \(errorDescription, privacy: .public)")
                             self.stopRecording()

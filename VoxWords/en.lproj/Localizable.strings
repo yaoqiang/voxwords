@@ -15,6 +15,13 @@
 /* Common */
 "common.words_count" = "%d Words";
 "common.delete" = "Delete";
+"common.close" = "Close";
+"common.cancel" = "Cancel";
+
+/* Permissions */
+"permissions.mic.title" = "Microphone access needed";
+"permissions.mic.message" = "To record and generate cards, please allow Microphone and Speech Recognition in Settings.";
+"permissions.open_settings" = "Open Settings";
 
 /* Daily */
 "daily.empty.title" = "No words yet";
@@ -44,6 +51,9 @@
 "settings.upgrade.title" = "Upgrade";
 "settings.upgrade.subtitle" = "Unlock unlimited cards";
 "settings.upgrade.active" = "Active";
+"settings.plus.title" = "VoxWords+";
+"settings.plus.manage" = "Manage subscription";
+"settings.plus.restore" = "Restore purchases";
 "settings.learning.change_language" = "Change learning language";
 "settings.learning.system_language" = "App language";
 "settings.learning.system_language.subtitle" = "Follow system";
@@ -90,6 +100,8 @@
 "paywall.disclaimer" = "Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period.";
 "paywall.privacy" = "Privacy Policy";
 "paywall.terms" = "Terms of Service";
+"paywall.eula" = "EULA";
+"paywall.success" = "VoxWords+ is active";
 
 /* In-app FAQ */
 "faq.title" = "FAQs";

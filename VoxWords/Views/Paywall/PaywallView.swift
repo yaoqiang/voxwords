@@ -7,6 +7,10 @@ struct PaywallView: View {
 
     @State private var selected: PurchaseManager.Tier = .yearly
 
+    // Used to detect a purchase/restore that happens while this paywall is on-screen.
+    @State private var premiumOnAppear: Bool = false
+    @State private var showSuccessToast: Bool = false
+
     var body: some View {
         ZStack {
             LiquidGlassBackground().ignoresSafeArea()
@@ -29,7 +33,33 @@ struct PaywallView: View {
             }
         }
         .task {
+            premiumOnAppear = purchase.isPremium
             purchase.start()
+        }
+        .onChange(of: purchase.isPremium) { _, newValue in
+            guard premiumOnAppear == false, newValue == true else { return }
+            premiumOnAppear = true
+            HapticManager.shared.success()
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.85)) {
+                showSuccessToast = true
+            }
+            // Auto-dismiss after a short success feedback.
+            Task { @MainActor in
+                try? await Task.sleep(nanoseconds: 900_000_000)
+                dismiss()
+            }
+        }
+        .overlay(alignment: .top) {
+            if showSuccessToast {
+                Text(String(localized: "paywall.success"))
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .foregroundStyle(.primary)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 9)
+                    .background(.ultraThinMaterial, in: Capsule(style: .continuous))
+                    .padding(.top, 10)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
         }
     }
 
@@ -268,17 +298,31 @@ struct PaywallView: View {
                         .font(.system(size: 12, weight: .semibold, design: .rounded))
                         .foregroundStyle(.secondary.opacity(0.85))
                 }
-                
+
                 Text("•")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.secondary.opacity(0.5))
-                
+
                 Button {
                     if let url = URL(string: "https://thin-tuba-90a.notion.site/2cfa939e504780909350eff2f5c76e77") {
                         UIApplication.shared.open(url)
                     }
                 } label: {
                     Text(String(localized: "paywall.terms"))
+                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.secondary.opacity(0.85))
+                }
+
+                Text("•")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.secondary.opacity(0.5))
+
+                Button {
+                    if let url = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
+                        UIApplication.shared.open(url)
+                    }
+                } label: {
+                    Text(String(localized: "paywall.eula"))
                         .font(.system(size: 12, weight: .semibold, design: .rounded))
                         .foregroundStyle(.secondary.opacity(0.85))
                 }

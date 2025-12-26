@@ -15,6 +15,13 @@
 /* Common */
 "common.words_count" = "%d 語";
 "common.delete" = "削除";
+"common.close" = "閉じる";
+"common.cancel" = "キャンセル";
+
+/* 許可 */
+"permissions.mic.title" = "マイクの許可が必要です";
+"permissions.mic.message" = "録音してカードを作成するには、設定でマイクと音声認識を許可してください。";
+"permissions.open_settings" = "設定を開く";
 
 /* Daily */
 "daily.empty.title" = "まだ単語がありません";
@@ -44,6 +51,9 @@
 "settings.upgrade.title" = "アップグレード";
 "settings.upgrade.subtitle" = "カードを無制限に";
 "settings.upgrade.active" = "有効";
+"settings.plus.title" = "VoxWords+";
+"settings.plus.manage" = "サブスクリプション管理";
+"settings.plus.restore" = "購入を復元";
 "settings.learning.change_language" = "学習言語を変更";
 "settings.learning.system_language" = "アプリの言語";
 "settings.learning.system_language.subtitle" = "システムに従う";
@@ -86,6 +96,8 @@
 "paywall.disclaimer" = "サブスクリプションは自動更新されます。期間終了の24時間前までに解約しない限り更新されます。";
 "paywall.privacy" = "プライバシーポリシー";
 "paywall.terms" = "利用規約";
+"paywall.eula" = "EULA";
+"paywall.success" = "VoxWords+ が有効です";
 
 /* In-app FAQ */
 "faq.title" = "よくある質問";

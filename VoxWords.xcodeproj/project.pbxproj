@@ -16,6 +16,7 @@
 		35DAAF338E63D4DA1382DDC2 /* MoodGravityScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CB50739EBB2EF784C20109 /* MoodGravityScene.swift */; };
 		35E9C2095464297C0E42D494 /* StickerKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B17B39316C38BF4F1A23FE /* StickerKit.swift */; };
 		446B4D78139334A563DA7FA3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128D967945EBB58BDDBEEDE8 /* SettingsView.swift */; };
+		ABCDEF0123456789ABCDEF02 /* PremiumStatusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF0123456789ABCDEF01 /* PremiumStatusSheet.swift */; };
 		5320999BFFFFDD4C08AA9B85 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20288A9774F82807F3B1FF30 /* RecordButton.swift */; };
 		5917B9E9C6CDDF8C20A340F5 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D032F81C017EC62696A4262E /* HapticManager.swift */; };
 		5CF23B7D4954FC05A749C870 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120E000BDC31452D4012C50C /* SpeechManager.swift */; };
@@ -44,6 +45,7 @@
 		120E000BDC31452D4012C50C /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
 		6A0B1C2D3E4F556677889902 /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		128D967945EBB58BDDBEEDE8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		ABCDEF0123456789ABCDEF01 /* PremiumStatusSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumStatusSheet.swift; sourceTree = "<group>"; };
 		150A8719C9C22E9B943981A7 /* VoxWords.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoxWords.entitlements; sourceTree = "<group>"; };
 		20288A9774F82807F3B1FF30 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		2F9F6F91D2950A7B148D1157 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				128D967945EBB58BDDBEEDE8 /* SettingsView.swift */,
+				ABCDEF0123456789ABCDEF01 /* PremiumStatusSheet.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				5320999BFFFFDD4C08AA9B85 /* RecordButton.swift in Sources */,
 				B5683B956716628F12CE13D0 /* RetroCards.swift in Sources */,
 				446B4D78139334A563DA7FA3 /* SettingsView.swift in Sources */,
+				ABCDEF0123456789ABCDEF02 /* PremiumStatusSheet.swift in Sources */,
 				5CF23B7D4954FC05A749C870 /* SpeechManager.swift in Sources */,
 				35E9C2095464297C0E42D494 /* StickerKit.swift in Sources */,
 				A592F58AD345F4C0DBD8CD2A /* TranslationHost.swift in Sources */,

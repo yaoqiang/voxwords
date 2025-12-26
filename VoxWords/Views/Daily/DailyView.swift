@@ -11,6 +11,8 @@ struct DailyView: View {
     @Binding var currentTranscript: String
 
     let audioLevel: () -> Float
+    let isRecordEnabled: Bool
+    let onPermissionGuide: () -> Void
     let onStartRecording: () -> Void
     let onStopRecording: () -> Void
     let onSpeak: (String) -> Void
@@ -64,6 +66,8 @@ struct DailyView: View {
             RecordButton(
                 isRecording: $isRecording,
                 audioLevel: audioLevel(),
+                isEnabled: isRecordEnabled,
+                onDisabledTap: onPermissionGuide,
                 onRecordingStart: onStartRecording,
                 onRecordingEnd: onStopRecording
             )
