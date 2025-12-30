@@ -138,10 +138,14 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
         // We request on-demand when the user taps the mic in Daily, so it feels expected.
     }
 
-    var hasRecordingPermissions: Bool {
+    var canStartRecording: Bool {
         let speech = SFSpeechRecognizer.authorizationStatus()
         let mic = AVAudioApplication.shared.recordPermission
-        return speech == .authorized && mic == .granted
+        // Allow recording if authorized OR if we haven't asked yet (so we can trigger the prompt).
+        // Only disable if explicitly denied or restricted.
+        let speechOk = (speech == .authorized || speech == .notDetermined)
+        let micOk = (mic == .granted || mic == .undetermined)
+        return speechOk && micOk
     }
 
     /// Ensures Mic + Speech permissions and starts recording if granted.
@@ -588,6 +592,10 @@ final class SpeechManager: NSObject, ObservableObject, SFSpeechRecognizerDelegat
             self.audioEngine.stop()
         }
         self.audioEngine.inputNode.removeTap(onBus: 0)
+        
+        // IMPORTANT: Reset the engine to clear any internal state confusion between sessions.
+        // This is critical when switching between TTS (playback) and Recognition (input).
+        self.audioEngine.reset()
 
         // Finish the task gracefully (less error spam than cancel).
         self.recognitionTask?.finish()

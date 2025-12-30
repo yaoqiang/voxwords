@@ -407,6 +407,10 @@ struct ContentView: View {
                         onDismiss: onDismissPreview,
                         onRetry: { onRetry(c) }
                     )
+                    .onAppear {
+                        // Auto-play TTS when the confirmation card appears
+                        onSpeak(c.word, c.targetLanguage)
+                    }
                     .transition(.opacity)
                 }
             }
@@ -418,19 +422,13 @@ struct ContentView: View {
                     RecordButton(
                         isRecording: $isRecording,
                         audioLevel: audioLevel(),
-                        isEnabled: speechManager.hasRecordingPermissions,
+                        isEnabled: speechManager.canStartRecording,
                         onDisabledTap: {
                             showMicPermissionGuide = true
                         },
                         onRecordingStart: {
                             onDismissPreview()
                             currentTranscript = ""
-                            
-                            // Check permissions before starting recording
-                            guard speechManager.hasRecordingPermissions else {
-                                showMicPermissionGuide = true
-                                return
-                            }
                             
                             // Start recording and handle permission request if needed
                             Task { @MainActor in
